@@ -1,10 +1,17 @@
 package com.houndsoft.towerbridge.services.model;
 
+import lombok.*;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
 @Entity(name = "materiales")
-public class Material extends AbstractEntity implements Cloneable {
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class Material extends AbstractEntity {
 
     @Column(nullable = false)
     private String nombre;
@@ -12,31 +19,4 @@ public class Material extends AbstractEntity implements Cloneable {
     private String detalle;
     @Column(nullable = false)
     private Integer stock;
-
-    public Material() {
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getDetalle() {
-        return detalle;
-    }
-
-    public void setDetalle(String detalle) {
-        this.detalle = detalle;
-    }
-
-    public Integer getStock() {
-        return stock;
-    }
-
-    public void setStock(Integer stock) {
-        this.stock = stock;
-    }
 }

@@ -59,14 +59,6 @@ public class DatabaseInitializerApplication implements CommandLineRunner {
                         .get();
         contactoRepository.save(contacto3);
 
-//        Contacto contacto4 =
-//                Builder.build(Contacto.class)
-//                        .with(p -> p.setDomicilio("Lavall 1500"))
-//                        .with(p -> p.setEmail("mayra.teacher@gmail.com"))
-//                        .with(p -> p.setTelefono("938373438"))
-//                        .get();
-//        contactoRepository.save(contacto4);
-
         Padre padre1 = new Padre("Javier Lopez", 23000992, contacto1, "solo por la tarde");
         Padre padre2 = new Padre("Adriana Fernandez", 30479942, contacto2, null);
         Padre padre3 = new Padre("Jorge Fernandez", 29076984, contacto3, null);
@@ -116,7 +108,7 @@ public class DatabaseInitializerApplication implements CommandLineRunner {
         alumnoRepository.save(alumno2);
 
         Usuario usuario = new Usuario();
-        usuario.setActivo(true);
+//        usuario.setActivo(true);
         usuario.setPassword("myPassword");
         usuario.setPerfil(Usuario.Perfil.ADMIN);
         usuario.setUsername("admin");
@@ -124,7 +116,7 @@ public class DatabaseInitializerApplication implements CommandLineRunner {
         usuarioRepository.save(usuario);
 
         Usuario usuario2 = new Usuario();
-        usuario2.setActivo(true);
+//        usuario2.setActivo(true);
 
         usuario2.setPassword("myPassword");
         usuario2.setPerfil(Usuario.Perfil.PROFESOR);

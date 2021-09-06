@@ -26,7 +26,7 @@ public class ProfesorController {
 
     @GetMapping("/profesores")
     public ResponseEntity<List<Profesor>> getAllProfesores() {
-            List<Profesor> profesores = iterableToList(profesorService.getAll());
+            List<Profesor> profesores = iterableToList(profesorService.getAllActive());
             return ResponseEntity.ok(profesores);
     }
 

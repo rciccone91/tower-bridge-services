@@ -1,5 +1,7 @@
 package com.houndsoft.towerbridge.services.model;
 
+import lombok.*;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -10,7 +12,12 @@ import javax.validation.constraints.NotEmpty;
 import java.util.Date;
 
 @Entity(name = "examenes")
-public class Examen extends AbstractEntity implements Cloneable {
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class Examen extends AbstractEntity {
 
   @Column(nullable = false) @NotEmpty private String nombre;
   @Column(nullable = false) private Date fecha;

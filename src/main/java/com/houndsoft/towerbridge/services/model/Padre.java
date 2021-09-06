@@ -6,7 +6,7 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity(name = "padres")
-public class Padre extends AbstractEntity implements Cloneable {
+public class Padre extends AbstractEntity {
 
   @Column(nullable = false)
   @NotEmpty
@@ -37,47 +37,6 @@ public class Padre extends AbstractEntity implements Cloneable {
   List<Alumno> alumnos;
 
   private String detalles;
-
-  public String getNombreApellido() {
-    return nombreApellido;
-  }
-
-  public void setNombreApellido(String nombreApellido) {
-    this.nombreApellido = nombreApellido;
-  }
-
-  public Integer getDNI() {
-    return DNI;
-  }
-
-  public void setDNI(Integer DNI) {
-    this.DNI = DNI;
-  }
-
-  public Contacto getContacto() {
-    return contacto;
-  }
-
-  public void setContacto(Contacto contacto) {
-    this.contacto = contacto;
-  }
-
-  public String getDetalles() {
-    return detalles;
-  }
-
-  public void setDetalles(String detalles) {
-    this.detalles = detalles;
-  }
-
-  @Override
-  public Padre clone() {
-    try {
-      return (Padre) super.clone();
-    } catch (CloneNotSupportedException e) {
-      return null;
-    }
-  }
 
   @Override
   public String toString() {

@@ -1,10 +1,16 @@
 package com.houndsoft.towerbridge.services.model;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.time.Instant;
 import java.util.Date;
 
 @MappedSuperclass
+@Getter
+@Setter
 public abstract class AbstractEntity {
   @Id
   @GeneratedValue(strategy= GenerationType.IDENTITY)
@@ -14,12 +20,15 @@ public abstract class AbstractEntity {
   private Date fechaCreacion;
   @Column(nullable = false)
   private Date fechaActualizacion;
+  @Column(nullable = false)
+  private Boolean activo;
 
   public AbstractEntity() {
     if(fechaCreacion == null){
       this.fechaCreacion = Date.from(Instant.now());
     }
     this.fechaActualizacion = Date.from(Instant.now());
+    this.activo = true;
   }
 
   public Long getId() {
@@ -32,22 +41,6 @@ public abstract class AbstractEntity {
 
   public boolean isPersisted() {
     return id != null;
-  }
-
-  public Date getFechaCreacion() {
-    return fechaCreacion;
-  }
-
-  public void setFechaCreacion(Date fechaCreacion) {
-    this.fechaCreacion = fechaCreacion;
-  }
-
-  public Date getFechaActualizacion() {
-    return fechaActualizacion;
-  }
-
-  public void setFechaActualizacion(Date fechaActualizacion) {
-    this.fechaActualizacion = fechaActualizacion;
   }
 
   @Override

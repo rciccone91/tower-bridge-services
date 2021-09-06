@@ -1,11 +1,18 @@
 package com.houndsoft.towerbridge.services.model;
 
+import lombok.*;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 @Entity(name = "cursos")
-public class Curso extends AbstractEntity implements Cloneable {
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class Curso extends AbstractEntity {
 
   @Column(nullable = false)
   @NotEmpty
@@ -36,63 +43,5 @@ public class Curso extends AbstractEntity implements Cloneable {
     CAMBRIDGE_INTERNATIONAL,
     ADULTOS,
     ESPECIFICOS;
-  }
-
-  public Curso() {}
-
-  public String getNombre() {
-    return nombre;
-  }
-
-  public void setNombre(String nombre) {
-    this.nombre = nombre;
-  }
-
-  public String getDescripcion() {
-    return descripcion;
-  }
-
-  public void setDescripcion(String descripcion) {
-    this.descripcion = descripcion;
-  }
-
-  public TipoDeCurso getTipoDeCurso() {
-    return tipoDeCurso;
-  }
-
-  public void setTipoDeCurso(TipoDeCurso tipoDeCurso) {
-    this.tipoDeCurso = tipoDeCurso;
-  }
-
-  public List<Libro> getLibrosDelCurso() {
-    return librosDelCurso;
-  }
-
-  public void setLibrosDelCurso(List<Libro> librosDelCurso) {
-    this.librosDelCurso = librosDelCurso;
-  }
-
-  public Integer getValorArancel() {
-    return valorArancel;
-  }
-
-  public void setValorArancel(Integer valorArancel) {
-    this.valorArancel = valorArancel;
-  }
-
-  public Integer getValorExamen() {
-    return valorExamen;
-  }
-
-  public void setValorExamen(Integer valorExamen) {
-    this.valorExamen = valorExamen;
-  }
-
-  public String getValorHoraProfesor() {
-    return valorHoraProfesor;
-  }
-
-  public void setValorHoraProfesor(String valorHoraProfesor) {
-    this.valorHoraProfesor = valorHoraProfesor;
   }
 }

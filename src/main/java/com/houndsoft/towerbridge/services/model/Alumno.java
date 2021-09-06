@@ -1,11 +1,18 @@
 package com.houndsoft.towerbridge.services.model;
 
+import lombok.*;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 @Entity(name = "alumnos")
-public class Alumno extends AbstractEntity implements Cloneable {
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class Alumno extends AbstractEntity {
 
   @Column(nullable = false)
   @NotEmpty
@@ -47,101 +54,4 @@ public class Alumno extends AbstractEntity implements Cloneable {
       inverseJoinColumns = @JoinColumn(name = "padre_id"))
   List<Padre> padresACargo;
 
-  public Alumno() {}
-
-  public String getNombreApellido() {
-    return nombreApellido;
-  }
-
-  public void setNombreApellido(String nombreApellido) {
-    this.nombreApellido = nombreApellido;
-  }
-
-  public Integer getEdad() {
-    return edad;
-  }
-
-  public void setEdad(Integer edad) {
-    this.edad = edad;
-  }
-
-  public Integer getDni() {
-    return dni;
-  }
-
-  public void setDni(Integer dni) {
-    this.dni = dni;
-  }
-
-  public String getAnioEscolar() {
-    return anioEscolar;
-  }
-
-  public void setAnioEscolar(String anioEscolar) {
-    this.anioEscolar = anioEscolar;
-  }
-
-  public String getColegio() {
-    return colegio;
-  }
-
-  public void setColegio(String colegio) {
-    this.colegio = colegio;
-  }
-
-  public String getNivelIngles() {
-    return nivelIngles;
-  }
-
-  public void setNivelIngles(String nivelIngles) {
-    this.nivelIngles = nivelIngles;
-  }
-
-  public String getInstitucionesPrevias() {
-    return institucionesPrevias;
-  }
-
-  public void setInstitucionesPrevias(String institucionesPrevias) {
-    this.institucionesPrevias = institucionesPrevias;
-  }
-
-  public String getDetalles() {
-    return detalles;
-  }
-
-  public void setDetalles(String detalles) {
-    this.detalles = detalles;
-  }
-
-  public Boolean getRindeExamen() {
-    return rindeExamen;
-  }
-
-  public void setRindeExamen(Boolean rindeExamen) {
-    this.rindeExamen = rindeExamen;
-  }
-
-  public Contacto getContacto() {
-    return contacto;
-  }
-
-  public void setContacto(Contacto contacto) {
-    this.contacto = contacto;
-  }
-
-  public List<Padre> getPadresACargo() {
-    return padresACargo;
-  }
-
-  public void setPadresACargo(List<Padre> padresACargo) {
-    this.padresACargo = padresACargo;
-  }
-
-  public Descuento getDescuento() {
-    return descuento;
-  }
-
-  public void setDescuento(Descuento descuento) {
-    this.descuento = descuento;
-  }
 }

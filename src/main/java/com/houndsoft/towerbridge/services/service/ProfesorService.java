@@ -2,6 +2,7 @@ package com.houndsoft.towerbridge.services.service;
 
 import com.houndsoft.towerbridge.services.model.Contacto;
 import com.houndsoft.towerbridge.services.model.Profesor;
+import com.houndsoft.towerbridge.services.repository.filter.CommonFilter;
 import com.houndsoft.towerbridge.services.repository.ContactoRepository;
 import com.houndsoft.towerbridge.services.repository.ProfesorRepository;
 import com.houndsoft.towerbridge.services.request.ProfesorDTO;
@@ -10,16 +11,18 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static com.houndsoft.towerbridge.services.repository.filter.CommonFilter.isActive;
+
 @Service
-public class ProfesorService {
+public class ProfesorService implements CommonFilter {
 
     @Autowired
     ProfesorRepository profesorRepository;
     @Autowired
     ContactoRepository contactoRepository;
 
-    public List<Profesor> getAll() {
-        return profesorRepository.findAll();
+    public List<Profesor> getAllActive() {
+        return profesorRepository.findAll(isActive());
     }
 
     public Profesor getById(long id) {
