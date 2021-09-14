@@ -1,8 +1,10 @@
 package com.houndsoft.towerbridge.services.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import java.time.Instant;
@@ -20,7 +22,7 @@ public abstract class AbstractEntity {
   private Date fechaCreacion;
   @Column(nullable = false)
   private Date fechaActualizacion;
-  @Column(nullable = false)
+  @Column(nullable = false, columnDefinition = "boolean default true")
   private Boolean activo;
 
   public AbstractEntity() {
@@ -41,31 +43,5 @@ public abstract class AbstractEntity {
 
   public boolean isPersisted() {
     return id != null;
-  }
-
-  @Override
-  public int hashCode() {
-    if (getId() != null) {
-      return getId().hashCode();
-    }
-    return super.hashCode();
-  }
-
-  @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
-      return true;
-    }
-    if (obj == null) {
-      return false;
-    }
-    if (getClass() != obj.getClass()) {
-      return false;
-    }
-    AbstractEntity other = (AbstractEntity) obj;
-    if (getId() == null || other.getId() == null) {
-      return false;
-    }
-    return getId().equals(other.getId());
   }
 }

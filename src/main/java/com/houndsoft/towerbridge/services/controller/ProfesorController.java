@@ -2,6 +2,7 @@ package com.houndsoft.towerbridge.services.controller;
 
 import com.houndsoft.towerbridge.services.model.Profesor;
 import com.houndsoft.towerbridge.services.request.ProfesorDTO;
+import com.houndsoft.towerbridge.services.response.ProfesorResponse;
 import com.houndsoft.towerbridge.services.service.ProfesorService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,9 +32,10 @@ public class ProfesorController {
     }
 
     @GetMapping("/profesores/{id}")
-    public ResponseEntity<Profesor> getProfesorById(@PathVariable("id") long id) {
+    public ResponseEntity<ProfesorResponse> getProfesorById(@PathVariable("id") Long id) {
         final Profesor byId = profesorService.getById(id);
-        return ResponseEntity.ok(byId);
+        final ProfesorResponse profesorResponse = ProfesorResponse.buildFromProfesor(byId);
+        return ResponseEntity.ok(profesorResponse);
     }
 
     @PostMapping("/profesores")
@@ -43,13 +45,14 @@ public class ProfesorController {
     }
 
     @PatchMapping("/profesores/{id}")
-    public ResponseEntity<Profesor> updateProfesor(@PathVariable("id") long id, @RequestBody ProfesorDTO profesorDTO) {
+    public ResponseEntity<Profesor> updateProfesor(@PathVariable("id") Long id, @RequestBody ProfesorDTO profesorDTO) {
             Profesor profesor = profesorService.upadeProfesor(id,profesorDTO);
             return ResponseEntity.ok(profesor);
     }
 
     @DeleteMapping("/profesores/{id}")
     public ResponseEntity<HttpStatus> deleteProfesor(@PathVariable("id") long id) {
-        return null;
+        profesorService.softDeleteProfesor(id);
+        return ResponseEntity.noContent().build();
     }
 }

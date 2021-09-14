@@ -9,6 +9,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.Optional;
 
 @Builder @Data
 public class ProfesorDTO implements Serializable {
@@ -37,6 +38,9 @@ public class ProfesorDTO implements Serializable {
     @Builder.Default
     private Boolean valorHoraDiferenciado = false;
 
+    @Builder.Default
+    private Optional<Long> contactoId = Optional.empty();
+
     @NotNull
     @NotBlank(message = "Se debe ingresar el domicilio")
     private String domicilio;
@@ -52,6 +56,7 @@ public class ProfesorDTO implements Serializable {
 
     private Contacto buildContacto(){
         Contacto contacto = new Contacto();
+        contactoId.ifPresent(contacto::setId);
         contacto.setDomicilio(this.domicilio);
         contacto.setEmail(this.email);
         contacto.setTelefono(this.telefono);
