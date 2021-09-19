@@ -21,8 +21,8 @@ public class ProfesorDTO implements Serializable {
     @NotNull
     private Integer dni;
 
-    @NotNull(message = "Se debe ingresarla edad")
-    private Integer edad;
+    @NotNull(message = "Se debe ingresar la fecha de Nacimiento")
+    private String fechaDeNacimiento;
 
     @Builder.Default
     private String detalles = null;
@@ -70,7 +70,7 @@ public class ProfesorDTO implements Serializable {
         profesor.setValorHoraDiferenciado(this.valorHoraDiferenciado);
         profesor.setContacto(this.buildContacto());
         profesor.setDni(this.dni);
-        profesor.setEdad(this.edad);
+        profesor.setFechaDeNacimiento(this.fechaDeNacimiento);
         profesor.setExperienciaPrevia(this.experienciaPrevia);
         profesor.setNombreApellido(this.nombreApellido);
 //        profesor.setUsuario(usuario2);

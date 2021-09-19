@@ -1,5 +1,7 @@
 package com.houndsoft.towerbridge.services.handler;
 
+import com.houndsoft.towerbridge.services.exception.CustomException;
+import com.houndsoft.towerbridge.services.response.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,19 +17,25 @@ public final class GeneralExceptionHandlingController {
 
     //~ Methods ......................................................................................................................................
 
+    @ExceptionHandler(CustomException.class)
+    public ResponseEntity<ErrorResponse> handleCustomException(@NotNull final CustomException exception) {
+        ErrorResponse errorResponse = new ErrorResponse(exception.getMessage());
+        log.error(errorResponse.getErrorMessage(), exception);
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<String> handleUnknownException(@NotNull final Exception exception) {
-        final String format = String.format("Un error inesperado ocurrió: %s", exception.getMessage());
-        log.error(format, exception);
-        return new ResponseEntity<>(format, HttpStatus.INTERNAL_SERVER_ERROR);
+    public ResponseEntity<ErrorResponse> handleUnknownException(@NotNull final Exception exception) {
+        ErrorResponse errorResponse = new ErrorResponse(String.format("Un error inesperado ocurrió: %s", exception.getMessage()));
+        log.error(errorResponse.getErrorMessage(), exception);
+        return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<String> handleEntityNotFoundException(@NotNull final EntityNotFoundException entityNotFoundException) {
-        final String format = String.format("El recurso requerido no pudo ser encontrado. Message: %s", entityNotFoundException.getMessage());
-        log.error(format, entityNotFoundException);
-        return new ResponseEntity<>(format, HttpStatus.NOT_FOUND);
+    public ResponseEntity<ErrorResponse> handleEntityNotFoundException(@NotNull final EntityNotFoundException entityNotFoundException) {
+        ErrorResponse errorResponse = new ErrorResponse(String.format("El recurso requerido no pudo ser encontrado. Message: %s", entityNotFoundException.getMessage()));
+        log.error(errorResponse.getErrorMessage(), entityNotFoundException);
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
 }

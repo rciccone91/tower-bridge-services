@@ -21,13 +21,24 @@ public class DatabaseInitializerApplication implements CommandLineRunner {
 
     @Autowired
     private ContactoRepository contactoRepository;
-    @Autowired private PadreRepository padreRepository;
-    @Autowired private AlumnoRepository alumnoRepository;
-    @Autowired private UsuarioRepository usuarioRepository;
-    @Autowired private MovimientoRepository movimientoRepository;
-    @Autowired private CajaRepository cajaRepository;
-    @Autowired private DescuentoRepository descuentoRepository;
-    @Autowired private ProfesorRepository profesorRepository;
+    @Autowired
+    private PadreRepository padreRepository;
+    @Autowired
+    private CursoRepository cursoRepository;
+    @Autowired
+    private ClaseRepository claseRepository;
+    @Autowired
+    private AlumnoRepository alumnoRepository;
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+    @Autowired
+    private MovimientoRepository movimientoRepository;
+    @Autowired
+    private CajaRepository cajaRepository;
+    @Autowired
+    private DescuentoRepository descuentoRepository;
+    @Autowired
+    private ProfesorRepository profesorRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(DatabaseInitializerApplication.class, args);
@@ -68,7 +79,7 @@ public class DatabaseInitializerApplication implements CommandLineRunner {
 
         List<Padre> padresACargo = List.of(padre2, padre3);
 
-        Descuento descuento =  Builder.build(Descuento.class)
+        Descuento descuento = Builder.build(Descuento.class)
                 .with(p -> p.setActivo(true))
                 .with(p -> p.setDescripcion("Equivale al 10% de descuento para 1 de 2 hermanos anotados (aplica a aquel de menor monto de los dos)"))
                 .with(p -> p.setNombre("2 Hermanos 10%"))
@@ -83,7 +94,7 @@ public class DatabaseInitializerApplication implements CommandLineRunner {
                         .with(p -> p.setAnioEscolar("2do grado"))
                         .with(p -> p.setColegio("Instituto Jose C Paz"))
                         .with(p -> p.setDni(60576987))
-                        .with(p -> p.setEdad(7))
+                        .with(p -> p.setFechaDeNacimiento("20/05/2014"))
                         .with(p -> p.setInstitucionesPrevias("primera vez en un instituto de ingles"))
                         .with(p -> p.setNivelIngles("Acorde a lo enseñado en el colegio"))
                         .with(p -> p.setRindeExamen(false))
@@ -97,7 +108,7 @@ public class DatabaseInitializerApplication implements CommandLineRunner {
                         .with(p -> p.setAnioEscolar("2do grado"))
                         .with(p -> p.setColegio("Instituto Jose C Paz"))
                         .with(p -> p.setDni(60587936))
-                        .with(p -> p.setEdad(7))
+                        .with(p -> p.setFechaDeNacimiento("20/05/2014"))
                         .with(p -> p.setInstitucionesPrevias("primera vez en un instituto de ingles"))
                         .with(p -> p.setNivelIngles("Acorde a lo enseñado en el colegio"))
                         .with(p -> p.setRindeExamen(false))
@@ -108,7 +119,6 @@ public class DatabaseInitializerApplication implements CommandLineRunner {
         alumnoRepository.save(alumno2);
 
         Usuario usuario = new Usuario();
-//        usuario.setActivo(true);
         usuario.setPassword("myPassword");
         usuario.setPerfil(Usuario.Perfil.ADMIN);
         usuario.setUsername("admin");
@@ -116,8 +126,6 @@ public class DatabaseInitializerApplication implements CommandLineRunner {
         usuarioRepository.save(usuario);
 
         Usuario usuario2 = new Usuario();
-//        usuario2.setActivo(true);
-
         usuario2.setPassword("myPassword");
         usuario2.setPerfil(Usuario.Perfil.PROFESOR);
         usuario2.setUsername("mayra.teacher");
@@ -136,26 +144,66 @@ public class DatabaseInitializerApplication implements CommandLineRunner {
 
         movimientoRepository.save(movimiento);
 
-        Caja caja  = Builder.build(Caja.class)
+        Caja caja = Builder.build(Caja.class)
                 .with(p -> p.setUltimoMovimiento(movimiento))
                 .with(p -> p.setValorActual(movimiento.getMonto()))
                 .get();
 
         cajaRepository.save(caja);
 
-        Contacto contacto4 = new Contacto("domicilio prueba","0239393","mayra.teacher@gmail.com");
+        Contacto contacto4 = new Contacto("domicilio prueba", "0239393", "mayra.teacher@gmail.com");
 
         Profesor profesor = new Profesor();
         profesor.setCbuCvu("algo.algomas.mp");
         profesor.setValorHoraDiferenciado(false);
         profesor.setContacto(contacto4);
         profesor.setDni(2334343);
-        profesor.setEdad(45);
+        profesor.setFechaDeNacimiento("10/08/1076");
         profesor.setExperienciaPrevia("instituto britanico");
         profesor.setNombreApellido("Mayra Gonzalez");
         profesor.setUsuario(usuario2);
         profesorRepository.save(profesor);
 
+        // Cambridge
+        final Curso starters = Curso.builder().nombre("Starters").valorHoraProfesor(200).tipoDeCurso(Curso.TipoDeCurso.CAMBRIDGE_INTERNATIONAL).valorArancel(1500).build();
+        cursoRepository.save(starters);
+        cursoRepository.save(Curso.builder().nombre("Movers").valorHoraProfesor(200).tipoDeCurso(Curso.TipoDeCurso.CAMBRIDGE_INTERNATIONAL).valorArancel(1500).build());
+        cursoRepository.save(Curso.builder().nombre("Flyers").valorHoraProfesor(250).tipoDeCurso(Curso.TipoDeCurso.CAMBRIDGE_INTERNATIONAL).valorArancel(2000).build());
+        cursoRepository.save(Curso.builder().nombre("KET").valorHoraProfesor(350).tipoDeCurso(Curso.TipoDeCurso.CAMBRIDGE_INTERNATIONAL).valorArancel(2000).build());
+        cursoRepository.save(Curso.builder().nombre("PET").valorHoraProfesor(350).tipoDeCurso(Curso.TipoDeCurso.CAMBRIDGE_INTERNATIONAL).valorArancel(2000).build());
+        cursoRepository.save(Curso.builder().nombre("PRE-FCE").valorHoraProfesor(500).tipoDeCurso(Curso.TipoDeCurso.CAMBRIDGE_INTERNATIONAL).valorArancel(2300).build());
+        final Curso fce = Curso.builder().nombre("FCE").valorHoraProfesor(600).tipoDeCurso(Curso.TipoDeCurso.CAMBRIDGE_INTERNATIONAL).valorArancel(3000).build();
+        cursoRepository.save(fce);
+        cursoRepository.save(Curso.builder().nombre("CAE").valorHoraProfesor(800).tipoDeCurso(Curso.TipoDeCurso.CAMBRIDGE_INTERNATIONAL).valorArancel(3000).build());
+
+        // Adultos
+        cursoRepository.save(Curso.builder().nombre("Basic").valorHoraProfesor(350).tipoDeCurso(Curso.TipoDeCurso.ADULTOS).valorArancel(2000).build());
+        cursoRepository.save(Curso.builder().nombre("Elemental").valorHoraProfesor(500).tipoDeCurso(Curso.TipoDeCurso.ADULTOS).valorArancel(2300).build());
+        cursoRepository.save(Curso.builder().nombre("Pre-Intermediate").valorHoraProfesor(600).tipoDeCurso(Curso.TipoDeCurso.ADULTOS).valorArancel(2800).build());
+        final Curso intermediate = Curso.builder().nombre("Intermediate").valorHoraProfesor(800).tipoDeCurso(Curso.TipoDeCurso.ADULTOS).valorArancel(3000).build();
+        cursoRepository.save(intermediate);
+        cursoRepository.save(Curso.builder().nombre("Superior").valorHoraProfesor(800).tipoDeCurso(Curso.TipoDeCurso.ADULTOS).valorArancel(3000).build());
+
+        // Especificos
+        cursoRepository.save(Curso.builder().nombre("Travel").valorHoraProfesor(400).tipoDeCurso(Curso.TipoDeCurso.ESPECIFICOS).valorArancel(2000).build());
+        final Curso business = Curso.builder().nombre("Business").valorHoraProfesor(400).tipoDeCurso(Curso.TipoDeCurso.ESPECIFICOS).valorArancel(2300).build();
+        cursoRepository.save(business);
+
+
+        claseRepository.save(Clase.builder().dia(Clase.Dia.LUNES).curso(starters).nombre("Starters 1A").profesor(profesor)
+                .horario("18 a 20 hs").claveClassroom("password123").claveVideollamada("call123").linkClassroom("Link al clasroom")
+                .linkVideollamada("link a la videoLlamada").build());
+        claseRepository.save(Clase.builder().dia(Clase.Dia.MARTES).curso(fce).nombre("FCE A").profesor(profesor)
+                .horario("19 a 21 hs").claveClassroom("password123").claveVideollamada("call123").linkClassroom("Link al clasroom")
+                .linkVideollamada("link a la videoLlamada").build());
+
+        claseRepository.save(Clase.builder().dia(Clase.Dia.VIERNES).curso(intermediate).nombre("Intermediate B").profesor(profesor)
+                .horario("17 a 19 hs").claveClassroom("password123").claveVideollamada("call123").linkClassroom("Link al clasroom")
+                .linkVideollamada("link a la videoLlamada").build());
+
+        claseRepository.save(Clase.builder().dia(Clase.Dia.SABADO).curso(intermediate).nombre("Business Sábado!").profesor(profesor)
+                .horario("9 a 11 hs").claveClassroom("password123").claveVideollamada("call123").linkClassroom("Link al clasroom")
+                .linkVideollamada("link a la videoLlamada").build());
     }
 
     @Override

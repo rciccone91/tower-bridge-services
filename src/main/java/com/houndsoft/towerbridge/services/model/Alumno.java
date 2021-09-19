@@ -19,7 +19,7 @@ public class Alumno extends AbstractEntity {
   private String nombreApellido;
 
   @Column(nullable = false)
-  private Integer edad;
+  private String fechaDeNacimiento;
 
   @Column(nullable = false)
   private Integer dni;

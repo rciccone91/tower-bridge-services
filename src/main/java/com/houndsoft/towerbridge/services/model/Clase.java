@@ -30,19 +30,19 @@ public class Clase extends AbstractEntity {
 
   @Column(nullable = false)
   @NotEmpty
-  private String link_videollamada;
+  private String linkVideollamada;
 
   @Column(nullable = false)
   @NotEmpty
-  private String clave_videollamada;
+  private String claveVideollamada;
 
   @Column(nullable = false)
   @NotEmpty
-  private String link_classroom;
+  private String linkClassroom;
 
   @Column(nullable = false)
   @NotEmpty
-  private String clave_classroom;
+  private String claveClassroom;
 
   @OneToOne
   @JoinColumn(name = "profesor_id")

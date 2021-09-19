@@ -12,7 +12,7 @@ public class ProfesorResponse {
 
     private String nombreApellido;
     private Integer dni;
-    private Integer edad;
+    private String fechaDeNacimiento;
     private String detalles;
     private String cbuCvu;
     private String experienciaPrevia;
@@ -24,7 +24,7 @@ public class ProfesorResponse {
 
     public static ProfesorResponse buildFromProfesor(Profesor profesor) {
         return ProfesorResponse.builder().nombreApellido(profesor.getNombreApellido()).dni(profesor.getDni())
-                .edad(profesor.getEdad()).detalles(profesor.getDetalles()).cbuCvu(profesor.getCbuCvu())
+                .fechaDeNacimiento(profesor.getFechaDeNacimiento()).detalles(profesor.getDetalles()).cbuCvu(profesor.getCbuCvu())
                 .experienciaPrevia(profesor.getExperienciaPrevia()).valorHoraDiferenciado(profesor.getValorHoraDiferenciado())
                 .domicilio(profesor.getContacto().getDomicilio()).telefono(profesor.getContacto().getTelefono())
                 .email(profesor.getContacto().getEmail()).contactoId(profesor.getContacto().getId()).build();

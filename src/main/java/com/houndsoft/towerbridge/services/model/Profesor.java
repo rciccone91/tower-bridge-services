@@ -25,7 +25,7 @@ public class Profesor extends AbstractEntity {
   private Integer dni;
 
   @Column(nullable = false)
-  private Integer edad;
+  private String fechaDeNacimiento;
 
   @Column(length = 1000)
   private String detalles;

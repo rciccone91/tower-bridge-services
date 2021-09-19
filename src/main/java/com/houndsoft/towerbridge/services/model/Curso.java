@@ -37,7 +37,7 @@ public class Curso extends AbstractEntity {
   private Integer valorExamen;
 
   @Column(nullable = false)
-  private String valorHoraProfesor;
+  private Integer valorHoraProfesor;
 
   public enum TipoDeCurso {
     CAMBRIDGE_INTERNATIONAL,
