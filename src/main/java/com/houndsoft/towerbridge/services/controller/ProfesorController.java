@@ -33,15 +33,14 @@ public class ProfesorController {
 
     @GetMapping("/profesores/{id}")
     public ResponseEntity<ProfesorResponse> getProfesorById(@PathVariable("id") Long id) {
-        final Profesor byId = profesorService.getById(id);
-        final ProfesorResponse profesorResponse = ProfesorResponse.buildFromProfesor(byId);
-        return ResponseEntity.ok(profesorResponse);
+        final ProfesorResponse profesorDetail = profesorService.getProfesorDetail(id);
+        return ResponseEntity.ok(profesorDetail);
     }
 
     @PostMapping("/profesores")
     public ResponseEntity<Profesor> createProfesor(@Valid @RequestBody ProfesorDTO profesorDTO) {
             Profesor profesor = profesorService.createProfesor(profesorDTO);
-            return ResponseEntity.ok(profesor);
+            return ResponseEntity.status(201).body(profesor);
     }
 
     @PatchMapping("/profesores/{id}")

@@ -8,10 +8,12 @@ import com.houndsoft.towerbridge.services.repository.filter.CommonFilter;
 import com.houndsoft.towerbridge.services.repository.ContactoRepository;
 import com.houndsoft.towerbridge.services.repository.ProfesorRepository;
 import com.houndsoft.towerbridge.services.request.ProfesorDTO;
+import com.houndsoft.towerbridge.services.response.ProfesorResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.houndsoft.towerbridge.services.repository.filter.CommonFilter.isActive;
 import static com.houndsoft.towerbridge.services.repository.filter.CommonFilter.propertyEquals;
@@ -28,13 +30,6 @@ public class ProfesorService implements CommonFilter {
 
     public List<Profesor> getAllActive() {
         return profesorRepository.findAll(isActive());
-    }
-
-    public Profesor getById(Long id) {
-        final Profesor byId = profesorRepository.getById(id);
-        if (byId.isPersisted()) {
-            return byId;
-        } else throw new RuntimeException("El profesor no existe.");
     }
 
     public Profesor createProfesor(ProfesorDTO profesorDTO) {
@@ -55,16 +50,23 @@ public class ProfesorService implements CommonFilter {
         } else throw new RuntimeException("El profesor no existe.");
     }
 
-    public void softDeleteProfesor(Long id){
+    public void softDeleteProfesor(Long id) {
         final Profesor retrievedProfesor = profesorRepository.getById(id);
         if (retrievedProfesor.isPersisted()) {
             final List<Clase> profesorClases = claseRepository.findAll(propertyEquals(retrievedProfesor, "profesor"));
-            if(!profesorClases.isEmpty()){
+            if (!profesorClases.isEmpty()) {
                 throw new ProfesorAsignadoAClaseException(retrievedProfesor.getNombreApellido());
             }
             retrievedProfesor.setActivo(false);
             profesorRepository.save(retrievedProfesor);
         } else throw new RuntimeException("El profesor no existe.");
+    }
+
+    public ProfesorResponse getProfesorDetail(Long id) {
+        final Profesor profesor = profesorRepository.getById(id);
+        final List<String> clases = claseRepository.findAll(propertyEquals(profesor, "profesor")).stream()
+                .map(c -> String.format("%s- %s %s", c.getNombre(), c.getDia(), c.getHorario())).collect(Collectors.toList());
+        return ProfesorResponse.buildFromProfesor(profesor,clases);
     }
 }
 

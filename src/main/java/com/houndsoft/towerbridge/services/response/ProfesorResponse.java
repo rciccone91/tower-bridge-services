@@ -3,6 +3,8 @@ package com.houndsoft.towerbridge.services.response;
 import com.houndsoft.towerbridge.services.model.Profesor;
 import lombok.*;
 
+import java.util.List;
+
 @Getter
 @Setter
 @Builder
@@ -21,12 +23,14 @@ public class ProfesorResponse {
     private String domicilio;
     private String telefono;
     private String email;
+    private List<String> clases;
 
-    public static ProfesorResponse buildFromProfesor(Profesor profesor) {
+    public static ProfesorResponse buildFromProfesor(Profesor profesor, List<String> clases) {
         return ProfesorResponse.builder().nombreApellido(profesor.getNombreApellido()).dni(profesor.getDni())
                 .fechaDeNacimiento(profesor.getFechaDeNacimiento()).detalles(profesor.getDetalles()).cbuCvu(profesor.getCbuCvu())
                 .experienciaPrevia(profesor.getExperienciaPrevia()).valorHoraDiferenciado(profesor.getValorHoraDiferenciado())
                 .domicilio(profesor.getContacto().getDomicilio()).telefono(profesor.getContacto().getTelefono())
-                .email(profesor.getContacto().getEmail()).contactoId(profesor.getContacto().getId()).build();
+                .email(profesor.getContacto().getEmail()).contactoId(profesor.getContacto().getId())
+                .clases(clases).build();
     }
 }

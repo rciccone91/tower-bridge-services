@@ -1,5 +1,8 @@
 package com.houndsoft.towerbridge.services.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 
 import javax.persistence.*;
@@ -52,6 +55,7 @@ public class Alumno extends AbstractEntity {
       name = "padres_x_alumno",
       joinColumns = @JoinColumn(name = "alumno_id"),
       inverseJoinColumns = @JoinColumn(name = "padre_id"))
+  @JsonIgnoreProperties("alumnos")
   List<Padre> padresACargo;
 
 }

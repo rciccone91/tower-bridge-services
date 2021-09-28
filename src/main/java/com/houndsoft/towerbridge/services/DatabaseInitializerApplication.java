@@ -70,12 +70,13 @@ public class DatabaseInitializerApplication implements CommandLineRunner {
                         .get();
         contactoRepository.save(contacto3);
 
-        Padre padre1 = new Padre("Javier Lopez", 23000992, contacto1, "solo por la tarde");
-        Padre padre2 = new Padre("Adriana Fernandez", 30479942, contacto2, null);
-        Padre padre3 = new Padre("Jorge Fernandez", 29076984, contacto3, null);
+        Padre padre1 = new Padre("Javier Lopez", 23000992, contacto1,List.of(), "solo por la tarde");
+        Padre padre2 = new Padre("Adriana Fernandez", 30479942,contacto2,List.of(), null);
+        Padre padre3 = new Padre("Jorge Fernandez", 29076984, contacto3,List.of(), null);
         padreRepository.save(padre1);
         padreRepository.save(padre2);
         padreRepository.save(padre3);
+
 
         List<Padre> padresACargo = List.of(padre2, padre3);
 
@@ -114,6 +115,7 @@ public class DatabaseInitializerApplication implements CommandLineRunner {
                         .with(p -> p.setRindeExamen(false))
                         .with(p -> p.setPadresACargo(padresACargo))
                         .get();
+
 
         alumnoRepository.save(alumno1);
         alumnoRepository.save(alumno2);

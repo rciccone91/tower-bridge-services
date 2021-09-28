@@ -1,11 +1,18 @@
 package com.houndsoft.towerbridge.services.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.*;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity(name = "padres")
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Padre extends AbstractEntity {
 
   @Column(nullable = false)
@@ -15,25 +22,12 @@ public class Padre extends AbstractEntity {
   @Column(nullable = false)
   private Integer DNI;
 
-  public Padre() {}
-
-  public Padre(
-      @NotNull @NotEmpty String nombreApellido,
-      @NotNull Integer DNI,
-      Contacto contacto,
-      String detalles) {
-    super();
-    this.nombreApellido = nombreApellido;
-    this.DNI = DNI;
-    this.contacto = contacto;
-    this.detalles = detalles;
-  }
-
   @OneToOne
   @JoinColumn(name = "contacto_id")
   private Contacto contacto;
 
   @ManyToMany(mappedBy = "padresACargo")
+  @JsonIgnoreProperties("padresACargo")
   List<Alumno> alumnos;
 
   private String detalles;
