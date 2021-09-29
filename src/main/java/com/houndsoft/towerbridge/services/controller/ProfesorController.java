@@ -4,8 +4,6 @@ import com.houndsoft.towerbridge.services.model.Profesor;
 import com.houndsoft.towerbridge.services.request.ProfesorDTO;
 import com.houndsoft.towerbridge.services.response.ProfesorResponse;
 import com.houndsoft.towerbridge.services.service.ProfesorService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,15 +18,13 @@ import static com.houndsoft.towerbridge.services.utils.CollectionUtils.iterableT
 @RequestMapping("/api")
 public class ProfesorController {
 
-    private static final Logger log = LoggerFactory.getLogger(ProfesorController.class);
-
     @Autowired
     ProfesorService profesorService;
 
     @GetMapping("/profesores")
     public ResponseEntity<List<Profesor>> getAllProfesores() {
-            List<Profesor> profesores = iterableToList(profesorService.getAllActive());
-            return ResponseEntity.ok(profesores);
+        List<Profesor> profesores = iterableToList(profesorService.getAllActive());
+        return ResponseEntity.ok(profesores);
     }
 
     @GetMapping("/profesores/{id}")
@@ -39,14 +35,14 @@ public class ProfesorController {
 
     @PostMapping("/profesores")
     public ResponseEntity<Profesor> createProfesor(@Valid @RequestBody ProfesorDTO profesorDTO) {
-            Profesor profesor = profesorService.createProfesor(profesorDTO);
-            return ResponseEntity.status(201).body(profesor);
+        Profesor profesor = profesorService.createProfesor(profesorDTO);
+        return ResponseEntity.status(201).body(profesor);
     }
 
     @PatchMapping("/profesores/{id}")
     public ResponseEntity<Profesor> updateProfesor(@PathVariable("id") Long id, @RequestBody ProfesorDTO profesorDTO) {
-            Profesor profesor = profesorService.upadeProfesor(id,profesorDTO);
-            return ResponseEntity.ok(profesor);
+        Profesor profesor = profesorService.upadeProfesor(id, profesorDTO);
+        return ResponseEntity.ok(profesor);
     }
 
     @DeleteMapping("/profesores/{id}")

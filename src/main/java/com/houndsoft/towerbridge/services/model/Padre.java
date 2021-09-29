@@ -6,6 +6,8 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 @Entity(name = "padres")
 @Getter
@@ -24,6 +26,7 @@ public class Padre extends AbstractEntity {
 
   @OneToOne
   @JoinColumn(name = "contacto_id")
+  @Cascade(CascadeType.ALL)
   private Contacto contacto;
 
   @ManyToMany(mappedBy = "padresACargo")

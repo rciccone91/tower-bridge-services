@@ -3,6 +3,8 @@ package com.houndsoft.towerbridge.services.controller;
 
 import com.houndsoft.towerbridge.services.model.Padre;
 import com.houndsoft.towerbridge.services.repository.PadreRepository;
+import com.houndsoft.towerbridge.services.request.PadreDTO;
+import com.houndsoft.towerbridge.services.response.PadreResponse;
 import com.houndsoft.towerbridge.services.service.PadreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,26 +23,24 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api")
 public class PadreController {
-    @Autowired
-    PadreService padreService;
 
     @Autowired
-    PadreRepository padreRepository;
+    PadreService padreService;
 
     @GetMapping("/padres")
     public ResponseEntity<Map<String, Object>> getPaginatedPadres(@RequestParam(required = false) String nombreApellido,
                                                                   @RequestParam(required = false) String alumno,
-                                                                          @RequestParam(defaultValue = "0") int page) {
+                                                                  @RequestParam(defaultValue = "0") int page) {
         try {
             List<Padre> padres;
-            Pageable paging = PageRequest.of(page, 8, Sort.by(Sort.Direction.ASC,"id"));
+            Pageable paging = PageRequest.of(page, 8, Sort.by(Sort.Direction.ASC, "id"));
 
             Page<Padre> pagePadre;
-            if(nombreApellido!= null){
-                pagePadre = padreService.findByNombreApellidoContaining(nombreApellido,paging);
-            } else if(alumno!= null){
-                pagePadre = padreService.findByAlumnosNombreApellidoContaining(alumno,paging);
-            } else{
+            if (nombreApellido != null) {
+                pagePadre = padreService.findByNombreApellidoContaining(nombreApellido, paging);
+            } else if (alumno != null) {
+                pagePadre = padreService.findByAlumnosNombreApellidoContaining(alumno, paging);
+            } else {
                 pagePadre = padreService.getPaginatedPadre(paging);
             }
 
@@ -57,28 +58,27 @@ public class PadreController {
         }
     }
 
-//    @GetMapping("/profesores/{id}")
-//    public ResponseEntity<PadreResponse> getPadreById(@PathVariable("id") Long id) {
-////        final Padre byId = padreService.getById(id);
-////        final PadreResponse padreResponse = PadreResponse.buildFromPadre(byId);
-//        return ResponseEntity.ok(padreResponse);
-//    }
-//
-//    @PostMapping("/profesores")
-//    public ResponseEntity<Padre> createPadre(@Valid @RequestBody PadreDTO profesorDTO) {
-//        Padre padre = padreService.createPadre(profesorDTO);
-//        return ResponseEntity.status(201).body(profesor);
-//    }
-//
-//    @PatchMapping("/profesores/{id}")
-//    public ResponseEntity<Padre> updatePadre(@PathVariable("id") Long id, @RequestBody PadreDTO profesorDTO) {
-//        Padre profesor = padreService.upadePadre(id,profesorDTO);
-//        return ResponseEntity.ok(profesor);
-//    }
-//
-//    @DeleteMapping("/profesores/{id}")
-//    public ResponseEntity<HttpStatus> deletePadre(@PathVariable("id") long id) {
-//        padreService.softDeletePadre(id);
-//        return ResponseEntity.noContent().build();
-//    }
+    @GetMapping("/padres/{id}")
+    public ResponseEntity<PadreResponse> getPadreById(@PathVariable("id") Long id) {
+        final PadreResponse padreResponse = padreService.getPadreDetail(id);
+        return ResponseEntity.ok(padreResponse);
+    }
+
+    @PostMapping("/padres")
+    public ResponseEntity<Padre> createPadre(@Valid @RequestBody PadreDTO padreDto) {
+        Padre padre = padreService.createPadre(padreDto);
+        return ResponseEntity.status(201).body(padre);
+    }
+
+    @PatchMapping("/padres/{id}")
+    public ResponseEntity<Padre> updatePadre(@PathVariable("id") Long id, @RequestBody PadreDTO padreDTO) {
+        Padre padre = padreService.upadePadre(id, padreDTO);
+        return ResponseEntity.ok(padre);
+    }
+
+    @DeleteMapping("/padres/{id}")
+    public ResponseEntity<HttpStatus> deletePadre(@PathVariable("id") long id) {
+        padreService.softDeletePadre(id);
+        return ResponseEntity.noContent().build();
+    }
 }

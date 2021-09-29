@@ -1,9 +1,9 @@
 package com.houndsoft.towerbridge.services.model;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -28,6 +28,7 @@ public class Alumno extends AbstractEntity {
   private Integer dni;
 
   private String anioEscolar;
+
   private String colegio;
 
   @Column(nullable = false, length = 1000)
@@ -44,6 +45,7 @@ public class Alumno extends AbstractEntity {
 
   @OneToOne
   @JoinColumn(name = "contacto_id")
+  @Cascade(CascadeType.ALL)
   private Contacto contacto;
 
   @OneToOne
@@ -56,6 +58,11 @@ public class Alumno extends AbstractEntity {
       joinColumns = @JoinColumn(name = "alumno_id"),
       inverseJoinColumns = @JoinColumn(name = "padre_id"))
   @JsonIgnoreProperties("alumnos")
-  List<Padre> padresACargo;
+  @Cascade(CascadeType.ALL)
+  private List<Padre> padresACargo;
+
+  @ManyToMany(mappedBy = "alumnosAnotados")
+  @JsonIgnoreProperties("alumnosAnotados")
+  private List<Clase> clases;
 
 }

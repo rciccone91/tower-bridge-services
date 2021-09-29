@@ -46,39 +46,6 @@ public class DatabaseInitializerApplication implements CommandLineRunner {
 
     protected void initializeDb() {
 
-        Contacto contacto1 =
-                Builder.build(Contacto.class)
-                        .with(p -> p.setDomicilio("Pte Peron 2020"))
-                        .with(p -> p.setEmail("jlopez@gmail.com"))
-                        .with(p -> p.setTelefono("2103021"))
-                        .get();
-        contactoRepository.save(contacto1);
-
-        Contacto contacto2 =
-                Builder.build(Contacto.class)
-                        .with(p -> p.setDomicilio("Urquiza 1278"))
-                        .with(p -> p.setEmail("adri.fern@gmail.com"))
-                        .with(p -> p.setTelefono("2237646"))
-                        .get();
-        contactoRepository.save(contacto2);
-
-        Contacto contacto3 =
-                Builder.build(Contacto.class)
-                        .with(p -> p.setDomicilio("Urquiza 1278"))
-                        .with(p -> p.setEmail("jorge.fndz@gmail.com"))
-                        .with(p -> p.setTelefono("3203948"))
-                        .get();
-        contactoRepository.save(contacto3);
-
-        Padre padre1 = new Padre("Javier Lopez", 23000992, contacto1,List.of(), "solo por la tarde");
-        Padre padre2 = new Padre("Adriana Fernandez", 30479942,contacto2,List.of(), null);
-        Padre padre3 = new Padre("Jorge Fernandez", 29076984, contacto3,List.of(), null);
-        padreRepository.save(padre1);
-        padreRepository.save(padre2);
-        padreRepository.save(padre3);
-
-
-        List<Padre> padresACargo = List.of(padre2, padre3);
 
         Descuento descuento = Builder.build(Descuento.class)
                 .with(p -> p.setActivo(true))
@@ -89,36 +56,8 @@ public class DatabaseInitializerApplication implements CommandLineRunner {
 
         descuentoRepository.save(descuento);
 
-        Alumno alumno1 =
-                Builder.build(Alumno.class)
-                        .with(p -> p.setNombreApellido("Tomas Fernandez"))
-                        .with(p -> p.setAnioEscolar("2do grado"))
-                        .with(p -> p.setColegio("Instituto Jose C Paz"))
-                        .with(p -> p.setDni(60576987))
-                        .with(p -> p.setFechaDeNacimiento("20/05/2014"))
-                        .with(p -> p.setInstitucionesPrevias("primera vez en un instituto de ingles"))
-                        .with(p -> p.setNivelIngles("Acorde a lo enseñado en el colegio"))
-                        .with(p -> p.setRindeExamen(false))
-                        .with(p -> p.setPadresACargo(padresACargo))
-                        .with(p -> p.setDescuento(descuento))
-                        .get();
-
-        Alumno alumno2 =
-                Builder.build(Alumno.class)
-                        .with(p -> p.setNombreApellido("Tobias Fernandez"))
-                        .with(p -> p.setAnioEscolar("2do grado"))
-                        .with(p -> p.setColegio("Instituto Jose C Paz"))
-                        .with(p -> p.setDni(60587936))
-                        .with(p -> p.setFechaDeNacimiento("20/05/2014"))
-                        .with(p -> p.setInstitucionesPrevias("primera vez en un instituto de ingles"))
-                        .with(p -> p.setNivelIngles("Acorde a lo enseñado en el colegio"))
-                        .with(p -> p.setRindeExamen(false))
-                        .with(p -> p.setPadresACargo(padresACargo))
-                        .get();
-
-
-        alumnoRepository.save(alumno1);
-        alumnoRepository.save(alumno2);
+//        alumnoRepository.save(alumno1);
+//        alumnoRepository.save(alumno2);
 
         Usuario usuario = new Usuario();
         usuario.setPassword("myPassword");
@@ -134,26 +73,69 @@ public class DatabaseInitializerApplication implements CommandLineRunner {
         usuario2.setEmail("mayra.teacher@gmail.com");
         usuarioRepository.save(usuario2);
 
-        Movimiento movimiento =
-                Builder.build(Movimiento.class)
-                        .with(p -> p.setDetalle("Primer movimiento. Ingreso inicial de dinero"))
-                        .with(p -> p.setFecha(new Date()))
-                        .with(p -> p.setMedioDePago(Movimiento.MedioDePago.EFECTIVO))
-                        .with(p -> p.setMonto(10000))
-                        .with(p -> p.setTipoMovimiento(Movimiento.TipoDeMovimiento.COBRO))
-                        .with(p -> p.setUsuario(usuario))
+        Contacto contacto1 =
+                Builder.build(Contacto.class)
+                        .with(p -> p.setDomicilio("Pte Peron 2020"))
+                        .with(p -> p.setEmail("jlopez@gmail.com"))
+                        .with(p -> p.setTelefono("2103021"))
                         .get();
+//        contactoRepository.save(contacto1);
 
-        movimientoRepository.save(movimiento);
+        Contacto contacto2 =
+                Builder.build(Contacto.class)
+                        .with(p -> p.setDomicilio("Urquiza 1278"))
+                        .with(p -> p.setEmail("adri.fern@gmail.com"))
+                        .with(p -> p.setTelefono("2237646"))
+                        .get();
+//        contactoRepository.save(contacto2);
 
-        Caja caja = Builder.build(Caja.class)
-                .with(p -> p.setUltimoMovimiento(movimiento))
-                .with(p -> p.setValorActual(movimiento.getMonto()))
-                .get();
-
-        cajaRepository.save(caja);
+        Contacto contacto3 =
+                Builder.build(Contacto.class)
+                        .with(p -> p.setDomicilio("Urquiza 1278"))
+                        .with(p -> p.setEmail("jorge.fndz@gmail.com"))
+                        .with(p -> p.setTelefono("3203948"))
+                        .get();
+//        contactoRepository.save(contacto3);
 
         Contacto contacto4 = new Contacto("domicilio prueba", "0239393", "mayra.teacher@gmail.com");
+
+
+        Padre padre1 = new Padre("Javier Lopez", 23000992, contacto1,List.of(), "solo por la tarde");
+        Padre padre2 = new Padre("Adriana Fernandez", 30479942,contacto2,List.of(), null);
+        Padre padre3 = new Padre("Jorge Fernandez", 29076984, contacto3,List.of(), null);
+        padreRepository.save(padre1);
+//        padreRepository.save(padre2);
+//        padreRepository.save(padre3);
+
+
+        List<Padre> padresACargo = List.of(padre2, padre3);
+
+        Alumno alumno1 =
+                Builder.build(Alumno.class)
+                        .with(p -> p.setNombreApellido("Tomas Fernandez"))
+                        .with(p -> p.setAnioEscolar("2ro primaria"))
+                        .with(p -> p.setColegio("Instituto Jose C Paz"))
+                        .with(p -> p.setDni(60576987))
+                        .with(p -> p.setFechaDeNacimiento("20/05/2013"))
+                        .with(p -> p.setInstitucionesPrevias("primera vez en un instituto de ingles"))
+                        .with(p -> p.setNivelIngles("Acorde a lo enseñado en el colegio"))
+                        .with(p -> p.setRindeExamen(false))
+                        .with(p -> p.setPadresACargo(padresACargo))
+                        .with(p -> p.setDescuento(descuento))
+                        .get();
+
+        Alumno alumno2 =
+                Builder.build(Alumno.class)
+                        .with(p -> p.setNombreApellido("Tobias Fernandez"))
+                        .with(p -> p.setAnioEscolar("2do grado"))
+                        .with(p -> p.setColegio("Parroquia San Jose Obrero"))
+                        .with(p -> p.setDni(60587936))
+                        .with(p -> p.setFechaDeNacimiento("28/07/2014"))
+                        .with(p -> p.setInstitucionesPrevias("primera vez en un instituto de ingles"))
+                        .with(p -> p.setNivelIngles("Acorde a lo enseñado en el colegio"))
+                        .with(p -> p.setRindeExamen(false))
+                        .with(p -> p.setPadresACargo(padresACargo))
+                        .get();
 
         Profesor profesor = new Profesor();
         profesor.setCbuCvu("algo.algomas.mp");
@@ -192,9 +174,10 @@ public class DatabaseInitializerApplication implements CommandLineRunner {
         cursoRepository.save(business);
 
 
-        claseRepository.save(Clase.builder().dia(Clase.Dia.LUNES).curso(starters).nombre("Starters 1A").profesor(profesor)
+        final Clase starters1A = Clase.builder().dia(Clase.Dia.LUNES).curso(starters).nombre("Starters 1A").profesor(profesor)
                 .horario("18 a 20 hs").claveClassroom("password123").claveVideollamada("call123").linkClassroom("Link al clasroom")
-                .linkVideollamada("link a la videoLlamada").build());
+                .linkVideollamada("link a la videoLlamada").alumnosAnotados(List.of(alumno1,alumno2)).build();
+        claseRepository.save(starters1A);
         claseRepository.save(Clase.builder().dia(Clase.Dia.MARTES).curso(fce).nombre("FCE A").profesor(profesor)
                 .horario("19 a 21 hs").claveClassroom("password123").claveVideollamada("call123").linkClassroom("Link al clasroom")
                 .linkVideollamada("link a la videoLlamada").build());
@@ -206,6 +189,25 @@ public class DatabaseInitializerApplication implements CommandLineRunner {
         claseRepository.save(Clase.builder().dia(Clase.Dia.SABADO).curso(intermediate).nombre("Business Sábado!").profesor(profesor)
                 .horario("9 a 11 hs").claveClassroom("password123").claveVideollamada("call123").linkClassroom("Link al clasroom")
                 .linkVideollamada("link a la videoLlamada").build());
+
+        Movimiento movimiento =
+                Builder.build(Movimiento.class)
+                        .with(p -> p.setDetalle("Primer movimiento. Ingreso inicial de dinero"))
+                        .with(p -> p.setFecha(new Date()))
+                        .with(p -> p.setMedioDePago(Movimiento.MedioDePago.EFECTIVO))
+                        .with(p -> p.setMonto(10000))
+                        .with(p -> p.setTipoMovimiento(Movimiento.TipoDeMovimiento.COBRO))
+                        .with(p -> p.setUsuario(usuario))
+                        .get();
+
+        movimientoRepository.save(movimiento);
+
+        Caja caja = Builder.build(Caja.class)
+                .with(p -> p.setUltimoMovimiento(movimiento))
+                .with(p -> p.setValorActual(movimiento.getMonto()))
+                .get();
+
+        cajaRepository.save(caja);
     }
 
     @Override
