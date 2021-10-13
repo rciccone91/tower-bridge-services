@@ -27,7 +27,6 @@ public class AlumnoController {
 
     @GetMapping("/alumnos")
     public ResponseEntity<Map<String, Object>> getPaginatedAlumnos(@RequestParam(required = false) String nombreApellido,
-                                                                  @RequestParam(required = false) Integer edad,
                                                                   @RequestParam(required = false) String anioEscolar,
                                                                   @RequestParam(defaultValue = "0") int page) {
         try {
@@ -37,8 +36,6 @@ public class AlumnoController {
             Page<Alumno> pageAlumno;
             if (nombreApellido != null) {
                 pageAlumno = alumnoService.findByNombreApellidoContaining(nombreApellido, paging);
-//            } else if (edad != null) {
-//                pageAlumno = alumnoService.findByEdadEquals(edad, paging);
             } else if (anioEscolar != null){
                 pageAlumno = alumnoService.findByAnioEscolarContaining(anioEscolar, paging);
             } else {

@@ -110,6 +110,20 @@ public class DatabaseInitializerApplication implements CommandLineRunner {
 
         List<Padre> padresACargo = List.of(padre2, padre3);
 
+        Contacto alumno1Contacto =
+                Builder.build(Contacto.class)
+                        .with(p -> p.setDomicilio("Urquiza 1278"))
+                        .with(p -> p.setEmail("tomas.fndz@gmail.com"))
+                        .with(p -> p.setTelefono("20657980"))
+                        .get();
+
+        Contacto alumno2Contacto =
+                Builder.build(Contacto.class)
+                        .with(p -> p.setDomicilio("Urquiza 1278"))
+                        .with(p -> p.setEmail("tobias.fndz@gmail.com"))
+                        .with(p -> p.setTelefono("20657840"))
+                        .get();
+
         Alumno alumno1 =
                 Builder.build(Alumno.class)
                         .with(p -> p.setNombreApellido("Tomas Fernandez"))
@@ -122,6 +136,7 @@ public class DatabaseInitializerApplication implements CommandLineRunner {
                         .with(p -> p.setRindeExamen(false))
                         .with(p -> p.setPadresACargo(padresACargo))
                         .with(p -> p.setDescuento(descuento))
+                        .with(p -> p.setContacto(alumno1Contacto))
                         .get();
 
         Alumno alumno2 =
@@ -135,6 +150,7 @@ public class DatabaseInitializerApplication implements CommandLineRunner {
                         .with(p -> p.setNivelIngles("Acorde a lo enseñado en el colegio"))
                         .with(p -> p.setRindeExamen(false))
                         .with(p -> p.setPadresACargo(padresACargo))
+                        .with(p -> p.setContacto(alumno2Contacto))
                         .get();
 
         Profesor profesor = new Profesor();

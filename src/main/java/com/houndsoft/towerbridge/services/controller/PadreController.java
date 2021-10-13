@@ -5,6 +5,7 @@ import com.houndsoft.towerbridge.services.model.Padre;
 import com.houndsoft.towerbridge.services.repository.PadreRepository;
 import com.houndsoft.towerbridge.services.request.PadreDTO;
 import com.houndsoft.towerbridge.services.response.PadreResponse;
+import com.houndsoft.towerbridge.services.response.PadreSimpleResponse;
 import com.houndsoft.towerbridge.services.service.PadreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,6 +20,7 @@ import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api")
@@ -26,6 +28,12 @@ public class PadreController {
 
     @Autowired
     PadreService padreService;
+
+    @GetMapping("/all-padres")
+    public ResponseEntity<List<PadreSimpleResponse>> getAllPadres(){
+        final List<PadreSimpleResponse> allPadres = padreService.getAllPadres().stream().map(PadreSimpleResponse::buildFromPadre).collect(Collectors.toList());
+        return new ResponseEntity<>(allPadres,HttpStatus.OK);
+    }
 
     @GetMapping("/padres")
     public ResponseEntity<Map<String, Object>> getPaginatedPadres(@RequestParam(required = false) String nombreApellido,

@@ -6,8 +6,6 @@ import lombok.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.houndsoft.towerbridge.services.repository.filter.CommonFilter.propertyEquals;
-
 @Getter
 @Setter
 @Builder

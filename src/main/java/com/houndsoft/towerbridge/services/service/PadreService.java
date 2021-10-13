@@ -15,6 +15,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 
+import java.util.List;
+
 import static com.houndsoft.towerbridge.services.repository.filter.CommonFilter.isActive;
 
 @Service
@@ -25,6 +27,10 @@ public class PadreService implements CommonFilter {
 
     @Autowired
     ContactoRepository contactoRepository;
+
+    public List<Padre> getAllPadres() {
+        return padreRepository.findAll(isActive());
+    }
 
     public Page<Padre> getPaginatedPadre(Pageable pageable) {
         return padreRepository.findAll(isActive(),pageable);
