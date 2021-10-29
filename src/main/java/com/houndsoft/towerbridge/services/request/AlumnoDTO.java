@@ -23,7 +23,7 @@ public class AlumnoDTO {
 //    private String padresACargo;
     @Builder.Default
     private Optional<Long> contactoId = Optional.empty();
-    private String usuario;
+    private Long usuarioId;
     private String domicilio;
     private String telefono;
     private String email;

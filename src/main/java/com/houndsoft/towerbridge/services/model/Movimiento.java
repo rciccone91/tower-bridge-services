@@ -1,9 +1,11 @@
 package com.houndsoft.towerbridge.services.model;
 
+import com.houndsoft.towerbridge.services.converters.YearMonthDateAttributeConverter;
 import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.time.YearMonth;
 import java.util.Date;
 
 @Entity(name = "movimientos")
@@ -28,7 +30,8 @@ public class Movimiento extends AbstractEntity {
   @Column(nullable = false)
   private Date fecha;
 
-  private String mesAbonado;
+  @Convert(converter = YearMonthDateAttributeConverter.class)
+  private YearMonth mesAbonado;
 
   @Column(nullable = false)
   @Enumerated(EnumType.STRING)
@@ -37,6 +40,10 @@ public class Movimiento extends AbstractEntity {
   @OneToOne
   @JoinColumn(name = "alumno_id")
   private Alumno alumno;
+
+  @OneToOne
+  @JoinColumn(name = "curso_id")
+  private Curso curso;
 
   @OneToOne
   @JoinColumn(name = "proveedor_id")
@@ -48,7 +55,9 @@ public class Movimiento extends AbstractEntity {
 
   public enum TipoDeMovimiento {
     COBRO,
-    PAGO
+    PAGO,
+    ENTRADA_MANUAL,
+    SALIDA_MANUAL
   }
 
   public enum MedioDePago {

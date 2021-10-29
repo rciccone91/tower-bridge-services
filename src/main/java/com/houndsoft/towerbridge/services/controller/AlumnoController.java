@@ -14,69 +14,87 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api")
 public class AlumnoController {
 
-    @Autowired
-    AlumnoService alumnoService;
+  @Autowired AlumnoService alumnoService;
 
-    @GetMapping("/alumnos")
-    public ResponseEntity<Map<String, Object>> getPaginatedAlumnos(@RequestParam(required = false) String nombreApellido,
-                                                                  @RequestParam(required = false) String anioEscolar,
-                                                                  @RequestParam(defaultValue = "0") int page) {
-        try {
-            List<Alumno> alumnos;
-            Pageable paging = PageRequest.of(page, 8, Sort.by(Sort.Direction.ASC, "id"));
+  @GetMapping("/alumnos/a-asignar")
+  public ResponseEntity<List<Map<String, Object>>> getAllAlumnosForClases() {
+    List<Map<String, Object>> response =
+        alumnoService.getAllActive().stream()
+            .map(
+                alumno -> {
+                  Map<String, Object> map = new HashMap<>();
+                  map.put("id", alumno.getId());
+                  map.put("nombre", alumno.getNombreApellido());
+                  return map;
+                })
+            .collect(Collectors.toList());
+    return ResponseEntity.ok(response);
+  }
 
-            Page<Alumno> pageAlumno;
-            if (nombreApellido != null) {
-                pageAlumno = alumnoService.findByNombreApellidoContaining(nombreApellido, paging);
-            } else if (anioEscolar != null){
-                pageAlumno = alumnoService.findByAnioEscolarContaining(anioEscolar, paging);
-            } else {
-                pageAlumno = alumnoService.getPaginatedAlumno(paging);
-            }
+  @GetMapping("/alumnos")
+  public ResponseEntity<Map<String, Object>> getPaginatedAlumnos(
+      @RequestParam(required = false) String nombreApellido,
+      @RequestParam(required = false) String anioEscolar,
+      @RequestParam(defaultValue = "0") int page) {
+    try {
+      List<Alumno> alumnos;
+      Pageable paging = PageRequest.of(page, 8, Sort.by(Sort.Direction.ASC, "id"));
 
-            alumnos = pageAlumno.getContent();
+      Page<Alumno> pageAlumno;
+      if (nombreApellido != null) {
+        pageAlumno = alumnoService.findByNombreApellidoContaining(nombreApellido, paging);
+      } else if (anioEscolar != null) {
+        pageAlumno = alumnoService.findByAnioEscolarContaining(anioEscolar, paging);
+      } else {
+        pageAlumno = alumnoService.getPaginatedAlumno(paging);
+      }
 
-            Map<String, Object> response = new HashMap<>();
-            response.put("alumnos", alumnos);
-            response.put("currentPage", pageAlumno.getNumber());
-            response.put("totalItems", pageAlumno.getTotalElements());
-            response.put("totalPages", pageAlumno.getTotalPages());
+      alumnos = pageAlumno.getContent();
 
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+      Map<String, Object> response = new HashMap<>();
+      response.put("alumnos", alumnos);
+      response.put("currentPage", pageAlumno.getNumber());
+      response.put("totalItems", pageAlumno.getTotalElements());
+      response.put("totalPages", pageAlumno.getTotalPages());
+
+      return new ResponseEntity<>(response, HttpStatus.OK);
+    } catch (Exception e) {
+      return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+  }
 
-    @GetMapping("/alumnos/{id}")
-    public ResponseEntity<AlumnoResponse> getAlumnoById(@PathVariable("id") Long id) {
-        final AlumnoResponse alumnoResponse = alumnoService.getAlumnoDetail(id);
-        return ResponseEntity.ok(alumnoResponse);
-    }
+  @GetMapping("/alumnos/{id}")
+  public ResponseEntity<AlumnoResponse> getAlumnoById(@PathVariable("id") Long id) {
+    final AlumnoResponse alumnoResponse = alumnoService.getAlumnoDetail(id);
+    return ResponseEntity.ok(alumnoResponse);
+  }
 
-    @PostMapping("/alumnos")
-    public ResponseEntity<Alumno> createAlumno(@Valid @RequestBody AlumnoDTO alumnoDto) {
-        Alumno alumno = alumnoService.createAlumno(alumnoDto);
-        return ResponseEntity.status(201).body(alumno);
-    }
+  @PostMapping("/alumnos")
+  public ResponseEntity<Alumno> createAlumno(@Valid @RequestBody AlumnoDTO alumnoDto) {
+    Alumno alumno = alumnoService.createAlumno(alumnoDto);
+    return ResponseEntity.status(201).body(alumno);
+  }
 
-    @PatchMapping("/alumnos/{id}")
-    public ResponseEntity<Alumno> updateAlumno(@PathVariable("id") Long id, @RequestBody AlumnoDTO alumnoDTO) {
-        Alumno alumno = alumnoService.upadeAlumno(id, alumnoDTO);
-        return ResponseEntity.ok(alumno);
-    }
+  @PatchMapping("/alumnos/{id}")
+  public ResponseEntity<Alumno> updateAlumno(
+      @PathVariable("id") Long id, @RequestBody AlumnoDTO alumnoDTO) {
+    Alumno alumno = alumnoService.upadeAlumno(id, alumnoDTO);
+    return ResponseEntity.ok(alumno);
+  }
 
-    @DeleteMapping("/alumnos/{id}")
-    public ResponseEntity<HttpStatus> deleteAlumno(@PathVariable("id") long id) {
-        alumnoService.softDeleteAlumno(id);
-        return ResponseEntity.noContent().build();
-    }
+  @DeleteMapping("/alumnos/{id}")
+  public ResponseEntity<HttpStatus> deleteAlumno(@PathVariable("id") long id) {
+    alumnoService.softDeleteAlumno(id);
+    return ResponseEntity.noContent().build();
+  }
 }

@@ -77,6 +77,6 @@ public class PadreService implements CommonFilter {
             }
             retrievedPadre.setActivo(false);
             padreRepository.save(retrievedPadre);
-        } else throw new RuntimeException("El profesor no existe.");
+        } else throw new RuntimeException("El padre no existe.");
     }
 }

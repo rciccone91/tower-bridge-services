@@ -1,11 +1,13 @@
 package com.houndsoft.towerbridge.services.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
+@JsonIgnoreProperties({"hibernateLazyInitializer"})
 @Entity(name = "cursos")
 @Getter
 @Setter

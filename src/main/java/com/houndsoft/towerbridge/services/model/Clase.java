@@ -30,8 +30,10 @@ public class Clase extends AbstractEntity {
   private Dia dia;
 
   @Column(nullable = false)
-  @NotEmpty
-  private String horario;
+  private Integer horarioInicio;
+
+  @Column(nullable = false)
+  private Integer horarioFin;
 
   @Column(nullable = false)
   @NotEmpty

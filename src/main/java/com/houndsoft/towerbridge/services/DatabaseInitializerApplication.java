@@ -11,6 +11,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 //import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.time.YearMonth;
 import java.util.Date;
 import java.util.List;
 
@@ -56,21 +57,16 @@ public class DatabaseInitializerApplication implements CommandLineRunner {
 
         descuentoRepository.save(descuento);
 
-//        alumnoRepository.save(alumno1);
-//        alumnoRepository.save(alumno2);
-
         Usuario usuario = new Usuario();
         usuario.setPassword("myPassword");
         usuario.setPerfil(Usuario.Perfil.ADMIN);
         usuario.setUsername("admin");
-        usuario.setEmail("tower.admin@gmail.com");
         usuarioRepository.save(usuario);
 
         Usuario usuario2 = new Usuario();
         usuario2.setPassword("myPassword");
         usuario2.setPerfil(Usuario.Perfil.PROFESOR);
         usuario2.setUsername("mayra.teacher");
-        usuario2.setEmail("mayra.teacher@gmail.com");
         usuarioRepository.save(usuario2);
 
         Contacto contacto1 =
@@ -137,6 +133,7 @@ public class DatabaseInitializerApplication implements CommandLineRunner {
                         .with(p -> p.setPadresACargo(padresACargo))
                         .with(p -> p.setDescuento(descuento))
                         .with(p -> p.setContacto(alumno1Contacto))
+                        .with(p -> p.setFechaInscripcion(YearMonth.of(2020,3)))
                         .get();
 
         Alumno alumno2 =
@@ -151,6 +148,7 @@ public class DatabaseInitializerApplication implements CommandLineRunner {
                         .with(p -> p.setRindeExamen(false))
                         .with(p -> p.setPadresACargo(padresACargo))
                         .with(p -> p.setContacto(alumno2Contacto))
+                        .with(p -> p.setFechaInscripcion(YearMonth.of(2021,6)))
                         .get();
 
         Profesor profesor = new Profesor();
@@ -189,21 +187,20 @@ public class DatabaseInitializerApplication implements CommandLineRunner {
         final Curso business = Curso.builder().nombre("Business").valorHoraProfesor(400).tipoDeCurso(Curso.TipoDeCurso.ESPECIFICOS).valorArancel(2300).build();
         cursoRepository.save(business);
 
-
         final Clase starters1A = Clase.builder().dia(Clase.Dia.LUNES).curso(starters).nombre("Starters 1A").profesor(profesor)
-                .horario("18 a 20 hs").claveClassroom("password123").claveVideollamada("call123").linkClassroom("Link al clasroom")
+                .horarioInicio(18).horarioFin(20).claveClassroom("password123").claveVideollamada("call123").linkClassroom("Link al clasroom")
                 .linkVideollamada("link a la videoLlamada").alumnosAnotados(List.of(alumno1,alumno2)).build();
         claseRepository.save(starters1A);
         claseRepository.save(Clase.builder().dia(Clase.Dia.MARTES).curso(fce).nombre("FCE A").profesor(profesor)
-                .horario("19 a 21 hs").claveClassroom("password123").claveVideollamada("call123").linkClassroom("Link al clasroom")
+                .horarioInicio(19).horarioFin(21).claveClassroom("password123").claveVideollamada("call123").linkClassroom("Link al clasroom")
                 .linkVideollamada("link a la videoLlamada").build());
 
         claseRepository.save(Clase.builder().dia(Clase.Dia.VIERNES).curso(intermediate).nombre("Intermediate B").profesor(profesor)
-                .horario("17 a 19 hs").claveClassroom("password123").claveVideollamada("call123").linkClassroom("Link al clasroom")
+                .horarioInicio(17).horarioFin(19).claveClassroom("password123").claveVideollamada("call123").linkClassroom("Link al clasroom")
                 .linkVideollamada("link a la videoLlamada").build());
 
         claseRepository.save(Clase.builder().dia(Clase.Dia.SABADO).curso(intermediate).nombre("Business Sábado!").profesor(profesor)
-                .horario("9 a 11 hs").claveClassroom("password123").claveVideollamada("call123").linkClassroom("Link al clasroom")
+                .horarioInicio(9).horarioFin(11).claveClassroom("password123").claveVideollamada("call123").linkClassroom("Link al clasroom")
                 .linkVideollamada("link a la videoLlamada").build());
 
         Movimiento movimiento =

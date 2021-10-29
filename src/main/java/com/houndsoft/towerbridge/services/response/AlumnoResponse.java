@@ -4,7 +4,6 @@ import com.houndsoft.towerbridge.services.model.Alumno;
 import com.houndsoft.towerbridge.services.model.Descuento;
 import lombok.*;
 
-import javax.validation.constraints.NotEmpty;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,11 +34,11 @@ public class AlumnoResponse {
 
     public static AlumnoResponse buildFromAlumno(Alumno alumno) {
         if(alumno.isPersisted()){
-            final List<String> padres = alumno.getPadresACargo().stream()
+            final List<String> padres = alumno.getPadresACargo().stream().distinct()
                     .map(p -> String.format("%s - Contacto: %s ", p.getNombreApellido(), p.getContacto().getTelefono())).collect(Collectors.toList());
 
             final List<String> clases = alumno.getClases().stream()
-                    .map(c -> String.format("%s- %s %s", c.getNombre(), c.getDia(), c.getHorario())).collect(Collectors.toList());
+                    .map(c -> String.format("%s- %s %s a %s", c.getNombre(), c.getDia(), c.getHorarioInicio(), c.getHorarioFin())).collect(Collectors.toList());
 
             final Descuento descuento = alumno.getDescuento();
 

@@ -38,6 +38,9 @@ public class Profesor extends AbstractEntity {
   @NotEmpty
   private String experienciaPrevia;
 
+  @Lob
+  private byte[] cv;
+
   @Column(nullable = false, columnDefinition = "boolean default false")
   private Boolean valorHoraDiferenciado;
 

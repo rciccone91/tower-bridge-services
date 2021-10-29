@@ -11,5 +11,7 @@ import java.util.List;
 @Repository
 public interface ProfesorRepository extends JpaRepository<Profesor, Long>, JpaSpecificationExecutor<Profesor> {
 
+    List<Profesor> findByNombreApellidoContainingIgnoreCaseAndActivoTrue(String nombre);
+
 }
 

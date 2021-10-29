@@ -1,12 +1,14 @@
 package com.houndsoft.towerbridge.services.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.houndsoft.towerbridge.services.converters.YearMonthDateAttributeConverter;
 import lombok.*;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.time.YearMonth;
 import java.util.List;
 
 @Entity(name = "alumnos")
@@ -43,6 +45,9 @@ public class Alumno extends AbstractEntity {
 
   private Boolean rindeExamen;
 
+  @Convert(converter = YearMonthDateAttributeConverter.class)
+  private YearMonth fechaInscripcion;
+
   @OneToOne
   @JoinColumn(name = "contacto_id")
   @Cascade(CascadeType.ALL)
@@ -62,7 +67,11 @@ public class Alumno extends AbstractEntity {
   private List<Padre> padresACargo;
 
   @ManyToMany(mappedBy = "alumnosAnotados")
-  @JsonIgnoreProperties("alumnosAnotados")
+  @JsonIgnoreProperties({"hibernateLazyInitializer", "alumnosAnotados"})
   private List<Clase> clases;
+
+  @OneToOne
+  @JoinColumn(name = "usuario_id")
+  private Usuario usuario;
 
 }
