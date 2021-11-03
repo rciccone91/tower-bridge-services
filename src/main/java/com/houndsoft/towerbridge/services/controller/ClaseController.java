@@ -30,6 +30,8 @@ public class ClaseController {
       @RequestParam(required = false) String curso,
       @RequestParam(required = false) String profesor,
       @RequestParam(required = false) Clase.Dia dia,
+      @RequestParam(required = false) Long profesorId,
+      @RequestParam(required = false) Long alumnoId,
       @RequestParam(defaultValue = "0") int page) {
     try {
       List<Clase> clases;
@@ -44,6 +46,10 @@ public class ClaseController {
         pageClase = claseService.findByProfesorNombreApellidoContaining(profesor, paging);
       } else if (dia != null) {
         pageClase = claseService.findByDiaContaining(dia, paging);
+      } else if (profesorId != null) {
+        pageClase = claseService.findByProfesor(profesorId, paging);
+      } else if (alumnoId != null) {
+        pageClase = claseService.findByAlumno(alumnoId, paging);
       } else {
         pageClase = claseService.getPaginatedClase(paging);
       }
@@ -64,7 +70,8 @@ public class ClaseController {
 
   @GetMapping("/clases/{id}")
   public ResponseEntity<ClaseResponse> getClaseById(@PathVariable("id") Long id) {
-    final ClaseResponse claseResponse = ClaseResponse.buildFromClase(claseService.getClaseDetail(id));
+    final ClaseResponse claseResponse =
+        ClaseResponse.buildFromClase(claseService.getClaseDetail(id));
     return ResponseEntity.ok(claseResponse);
   }
 

@@ -5,6 +5,7 @@ import com.houndsoft.towerbridge.services.model.Contacto;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.List;
 import java.util.Optional;
 
 @Builder
@@ -20,7 +21,7 @@ public class AlumnoDTO {
     private String institucionesPrevias;
     private String detalles;
     private Boolean rindeExamen;
-//    private String padresACargo;
+    private List<Long> padresACargo;
     @Builder.Default
     private Optional<Long> contactoId = Optional.empty();
     private Long usuarioId;

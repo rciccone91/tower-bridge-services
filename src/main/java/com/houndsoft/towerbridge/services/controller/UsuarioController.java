@@ -1,7 +1,9 @@
 package com.houndsoft.towerbridge.services.controller;
 
 import com.houndsoft.towerbridge.services.model.Usuario;
+import com.houndsoft.towerbridge.services.request.LoginRequest;
 import com.houndsoft.towerbridge.services.request.UsuarioDTO;
+import com.houndsoft.towerbridge.services.response.UsuarioResponse;
 import com.houndsoft.towerbridge.services.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -79,6 +81,12 @@ public class UsuarioController {
     public ResponseEntity<HttpStatus> deleteUsuario(@PathVariable("id") long id) {
         usuarioService.softDeleteUsuario(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping ("/login")
+    public ResponseEntity<UsuarioResponse> login(@RequestBody LoginRequest loginRequest) {
+        final UsuarioResponse usuario = usuarioService.login(loginRequest);
+        return ResponseEntity.ok(usuario);
     }
 
 }

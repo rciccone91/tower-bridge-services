@@ -1,6 +1,7 @@
 package com.houndsoft.towerbridge.services.handler;
 
 import com.houndsoft.towerbridge.services.exception.CustomException;
+import com.houndsoft.towerbridge.services.exception.LoginInvalidoException;
 import com.houndsoft.towerbridge.services.response.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,13 @@ import javax.validation.constraints.NotNull;
 public final class GeneralExceptionHandlingController {
 
     //~ Methods ......................................................................................................................................
+
+    @ExceptionHandler(LoginInvalidoException.class)
+    public ResponseEntity<ErrorResponse> handleLoginInvalidoException(@NotNull final LoginInvalidoException loginInvalidoException) {
+        ErrorResponse errorResponse = new ErrorResponse(loginInvalidoException.getMessage());
+        log.error(errorResponse.getErrorMessage(), loginInvalidoException);
+        return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
+    }
 
     @ExceptionHandler(CustomException.class)
     public ResponseEntity<ErrorResponse> handleCustomException(@NotNull final CustomException exception) {

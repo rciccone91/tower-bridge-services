@@ -12,23 +12,10 @@ import java.util.Optional;
 
 public interface UsuarioRepository extends JpaRepository<Usuario, Long>, JpaSpecificationExecutor<Usuario> {
 
-//    select * FROM usuarios
-//    WHERE  id not IN
-//            (
-//                    SELECT  usuario_id
-//       FROM    profesores
-//               WHERE   usuario_id is not null
-//            ) and perfil = 'PROFESOR';
-//
-//    select * FROM usuarios
-//    WHERE  id not IN
-//            (
-//                    SELECT  usuario_id
-//       FROM    alumnos
-//               WHERE   usuario_id is not null
-//            ) and perfil = 'ALUMNO';
+    Optional<Usuario> findByUsernameAndPasswordAndActivoTrue(String username, String password);
 
     Optional<Usuario> findByUsername(String username);
+
 
     Boolean existsByUsername(String username);
 

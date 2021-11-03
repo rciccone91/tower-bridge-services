@@ -15,7 +15,7 @@ import java.util.Optional;
 @Data
 public class ClaseDTO {
 
-  private long curso;
+  private Long curso;
   private String nombre;
   private String descripcion;
   private String dia;
@@ -26,7 +26,7 @@ public class ClaseDTO {
   private String linkClassroom;
   private String claveClassroom;
   private List<Long> alumnosIds;
-  private long profesorId;
+  private Long profesorId;
 
   public Clase buildClase() {
     return Clase.builder()

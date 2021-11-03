@@ -29,7 +29,7 @@ public class PadreController {
     @Autowired
     PadreService padreService;
 
-    @GetMapping("/all-padres")
+    @GetMapping("/padres/all")
     public ResponseEntity<List<PadreSimpleResponse>> getAllPadres(){
         final List<PadreSimpleResponse> allPadres = padreService.getAllPadres().stream().map(PadreSimpleResponse::buildFromPadre).collect(Collectors.toList());
         return new ResponseEntity<>(allPadres,HttpStatus.OK);

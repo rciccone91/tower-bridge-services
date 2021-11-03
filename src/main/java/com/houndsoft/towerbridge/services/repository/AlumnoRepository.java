@@ -1,6 +1,7 @@
 package com.houndsoft.towerbridge.services.repository;
 
 import com.houndsoft.towerbridge.services.model.Alumno;
+import com.houndsoft.towerbridge.services.model.Usuario;
 import com.houndsoft.towerbridge.services.model.intermediate.MesAdeudado;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,5 +27,7 @@ public interface AlumnoRepository extends JpaRepository<Alumno, Long>, JpaSpecif
             "inner join clases as cl on axc.clase_id = cl.id\n" +
             "inner join cursos as c on cl.curso_id = c.id", nativeQuery = true)
     List<MesAdeudado> findByMesCorrienteAdeudado();
+
+    Alumno findAlumnoByUsuarioEqualsAndActivoTrue(Usuario usuario);
 
 }

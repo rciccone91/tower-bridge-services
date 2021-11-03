@@ -38,7 +38,7 @@ public class ClaseService implements CommonFilter {
     if (retrievedClase.isPersisted()) {
       retrievedClase.setActivo(false);
       claseRepository.save(retrievedClase);
-    } else throw new RuntimeException("El padre no existe.");
+    } else throw new RuntimeException("La clase no existe.");
   }
 
   public Clase updateClase(Long id, ClaseDTO claseDTO) {
@@ -55,6 +55,9 @@ public class ClaseService implements CommonFilter {
   }
 
   public Clase createClase(ClaseDTO claseDto) {
+    final Profesor claseProfesor = getClaseProfesor(claseDto);
+    final List<Alumno> claseAlumnos = getClaseAlumnos(claseDto);
+
     Clase clase = claseDto.buildClase();
     claseRepository.save(clase);
     addCurso(clase, claseDto);
@@ -71,26 +74,26 @@ public class ClaseService implements CommonFilter {
     } else throw new RuntimeException("El curso no existe.");
   }
 
-  private void addProfesor(Clase clase, ClaseDTO claseDto) {
+  private Profesor getClaseProfesor(ClaseDTO claseDto) {
     final Profesor profesor = profesorRepository.getById(claseDto.getProfesorId());
     if (profesor.isPersisted()) {
-      clase.setProfesor(profesor);
+      return profesor;
     } else throw new RuntimeException("El profesor no existe.");
   }
 
-  private void addAlumnos(Clase clase, ClaseDTO claseDto) {
+  private List<Alumno> getClaseAlumnos(ClaseDTO claseDto) {
     List<Alumno> alumnos =
         claseDto.getAlumnosIds().stream()
             .map(a -> alumnoRepository.getById(a))
             .collect(Collectors.toList());
+    List<Alumno> alumnosAnotados = new ArrayList<>();
     alumnos.forEach(
         alumno -> {
           if (alumno.isPersisted()) {
-            List<Alumno> alumnosAnotados = clase.getAlumnosAnotados() != null ? clase.getAlumnosAnotados() : new ArrayList<>();
             alumnosAnotados.add(alumno);
-            clase.setAlumnosAnotados(alumnosAnotados);
-          } else throw new RuntimeException("El profesor no existe.");
+          } else throw new RuntimeException("Ocurrió un error. Uno de los alumnos asignados para la clase no existe.");
         });
+    return alumnosAnotados;
   }
 
   public Clase getClaseDetail(Long id) {
@@ -120,4 +123,15 @@ public class ClaseService implements CommonFilter {
   public Page<Clase> findByNombreContaining(String nombre, Pageable paging) {
     return claseRepository.findByNombreContainingIgnoreCaseAndActivoTrue(nombre, paging);
   }
+
+  public Page<Clase> findByProfesor(Long profesorId, Pageable paging) {
+    return profesorRepository.findById(profesorId)
+            .map(p -> claseRepository.findByProfesorEqualsAndActivoTrue(p,paging))
+            .orElseThrow(() -> new RuntimeException("Error al buscar clases. El profesor por el cual se realizó la consulta no existe."));
+  }
+
+  public Page<Clase> findByAlumno(Long alumnoId, Pageable paging) {
+    return alumnoRepository.findById(alumnoId)
+            .map(a -> claseRepository.findByAlumnosAnotadosContainsAndActivoTrue(a,paging))
+            .orElseThrow(() -> new RuntimeException("Error al buscar clases. El alumno por el cual se realizó la consulta no existe."));  }
 }

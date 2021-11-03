@@ -54,7 +54,7 @@ public class ProfesorDTO implements Serializable {
     @Email(message = "el mail ingresado debe tener un formato valido")
     private String email;
 
-    private long usuarioId;
+    private Long usuarioId;
 
     private Contacto buildContacto(){
         Contacto contacto = new Contacto();

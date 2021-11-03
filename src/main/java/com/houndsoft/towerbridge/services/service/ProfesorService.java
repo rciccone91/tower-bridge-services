@@ -14,7 +14,6 @@ import com.houndsoft.towerbridge.services.response.ProfesorResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -38,9 +37,9 @@ public class ProfesorService implements CommonFilter {
 
   public Profesor createProfesor(ProfesorDTO profesorDTO) {
     Profesor profesor = profesorDTO.buildProfesor();
-    final Usuario usuario = usuarioRepository.findById(profesorDTO.getUsuarioId()).orElseThrow(() -> new RuntimeException("El usuario no fue encontrado"));
+    final Optional<Usuario> usuario = getUsuario(profesorDTO);
     profesorRepository.save(profesor);
-    profesor.setUsuario(usuario);
+    usuario.ifPresent(profesor::setUsuario);
     profesorRepository.save(profesor);
     return profesor;
   }
@@ -48,13 +47,21 @@ public class ProfesorService implements CommonFilter {
   public Profesor upadeProfesor(Long id, ProfesorDTO profesorDTO) {
     final Profesor retrievedProfesor = profesorRepository.getById(id);
     if (retrievedProfesor.isPersisted()) {
+      final Optional<Usuario> usuario = getUsuario(profesorDTO);
       Long contactoId = retrievedProfesor.getContacto().getId();
       Profesor profesor = profesorDTO.buildProfesor();
       profesor.setId(id);
       profesor.getContacto().setId(contactoId);
+      usuario.ifPresent(profesor::setUsuario);
       profesorRepository.save(profesor);
       return profesor;
     } else throw new RuntimeException("El profesor no existe.");
+  }
+
+  private Optional<Usuario> getUsuario(ProfesorDTO profesorDTO) {
+    if (profesorDTO.getUsuarioId() != null) {
+      return usuarioRepository.findById(profesorDTO.getUsuarioId());
+    } else return Optional.empty();
   }
 
   public void softDeleteProfesor(Long id) {
@@ -87,9 +94,13 @@ public class ProfesorService implements CommonFilter {
     return profesorRepository.findByNombreApellidoContainingIgnoreCaseAndActivoTrue(nombre);
   }
 
-
   public List<Profesor> findByCursoNombreContaining(String curso) {
     Pageable paging = PageRequest.of(0, 100);
-    return claseRepository.findByCursoNombreContainingIgnoreCaseAndActivoTrue(curso,paging).getContent().stream().map(Clase::getProfesor).collect(Collectors.toList());
+    return claseRepository
+        .findByCursoNombreContainingIgnoreCaseAndActivoTrue(curso, paging)
+        .getContent()
+        .stream()
+        .map(Clase::getProfesor)
+        .collect(Collectors.toList());
   }
 }

@@ -11,9 +11,13 @@ import lombok.*;
 public class PadreSimpleResponse {
 
     private Long id;
-    private String nombreApellido;
+    private String nombre;
+    private String telefono;
 
     public static PadreSimpleResponse buildFromPadre(Padre padre) {
-        return PadreSimpleResponse.builder().id(padre.getId()).nombreApellido(padre.getNombreApellido()).build();
+        final PadreSimpleResponseBuilder builder = PadreSimpleResponse.builder().id(padre.getId()).nombre(padre.getNombreApellido());
+        if(padre.getContacto() != null){
+            return builder.telefono(padre.getContacto().getTelefono()).build();
+        } else return builder.build();
     }
 }
