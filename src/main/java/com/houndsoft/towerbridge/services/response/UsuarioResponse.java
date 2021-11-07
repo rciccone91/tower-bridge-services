@@ -14,6 +14,7 @@ public class UsuarioResponse {
   private String username;
   private Perfil perfil;
   private Long id;
+  private Long usuarioId;
 
   // TODO - voy a buscar el alumno o profesor asociado al usuario.
   // En caso de que no haya, tiro una excepción.
@@ -22,6 +23,7 @@ public class UsuarioResponse {
         .perfil(usuario.getPerfil())
         .username(usuario.getUsername())
         .id(relatedId)
+        .usuarioId(usuario.getId())
         .build();
   }
 }

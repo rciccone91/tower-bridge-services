@@ -1,6 +1,7 @@
 package com.houndsoft.towerbridge.services.controller;
 
 import com.houndsoft.towerbridge.services.model.Clase;
+import com.houndsoft.towerbridge.services.repository.ClaseRepository;
 import com.houndsoft.towerbridge.services.request.ClaseDTO;
 import com.houndsoft.towerbridge.services.response.ClaseResponse;
 import com.houndsoft.towerbridge.services.service.ClaseService;
@@ -23,6 +24,7 @@ import java.util.Map;
 public class ClaseController {
 
   @Autowired ClaseService claseService;
+  @Autowired ClaseRepository claseRepository;
 
   @GetMapping("/clases")
   public ResponseEntity<Map<String, Object>> getPaginatedClases(
@@ -77,11 +79,6 @@ public class ClaseController {
 
   @PostMapping("/clases")
   public ResponseEntity<Clase> createClase(@Valid @RequestBody ClaseDTO claseDto) {
-
-    // TODO - validate:
-    // - que el alumno no tenga otra clase en ese dia-horario
-    // - que el profesor no tenga otra clase en ese dia-horario
-    // - que no haya mas de 3 clases en ese horario
     Clase clase = claseService.createClase(claseDto);
     return ResponseEntity.status(201).body(clase);
   }
@@ -98,4 +95,10 @@ public class ClaseController {
     claseService.softDeleteClase(id);
     return ResponseEntity.noContent().build();
   }
+
+//  @GetMapping("/clases/query")
+//  public ResponseEntity<List<Clase>> testQuery(@RequestParam("dia") Clase.Dia dia,@RequestParam("inicio") Integer inicio, @RequestParam("fin") Integer fin, @RequestParam("alum") Long alum) {
+//    final List<Clase> clases = claseRepository.getClasesForAlumnoAndDiaAndRangoHorario(dia.toString(), inicio, fin, alum);
+//    return ResponseEntity.ok(clases);
+//  }
 }

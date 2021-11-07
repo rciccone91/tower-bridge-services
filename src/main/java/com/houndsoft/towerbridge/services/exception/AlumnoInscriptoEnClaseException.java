@@ -1,5 +1,10 @@
 package com.houndsoft.towerbridge.services.exception;
 
+import lombok.EqualsAndHashCode;
+import lombok.Value;
+
+@EqualsAndHashCode(callSuper = false)
+@Value
 public class AlumnoInscriptoEnClaseException extends CustomException {
 
     public AlumnoInscriptoEnClaseException(String alumno, String clase) {
