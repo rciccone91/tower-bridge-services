@@ -3,6 +3,7 @@ package com.houndsoft.towerbridge.services.request;
 import com.houndsoft.towerbridge.services.model.Alumno;
 import com.houndsoft.towerbridge.services.model.Curso;
 import com.houndsoft.towerbridge.services.model.Movimiento;
+import com.houndsoft.towerbridge.services.model.Proveedor;
 import com.houndsoft.towerbridge.services.utils.Utils;
 import lombok.Builder;
 import lombok.Data;
@@ -24,13 +25,25 @@ public class MovimientoDTO {
     private Long proveedorId;
     private Long usuarioId;
 
-    public Movimiento buildMovimiento() {
-        return null;
-    }
+//    public Movimiento buildMovimiento() {
+//        return null;
+//    }
 
     public Movimiento buildMovimientoCobro(Curso curso, Alumno alumno) {
         return Movimiento.builder().tipoMovimiento(Movimiento.TipoDeMovimiento.valueOf(tipoMovimiento))
                 .alumno(alumno).curso(curso).detalle(detalle).fecha(fechaDeCobro).monto(monto)
                 .medioDePago(Movimiento.MedioDePago.valueOf(medioDePago)).mesAbonado(Utils.getFromDate(mesAbonado)).build();
+    }
+
+    public Movimiento buildMovimientoCobro(Proveedor proveedor) {
+        return Movimiento.builder().tipoMovimiento(Movimiento.TipoDeMovimiento.valueOf(tipoMovimiento))
+                .proveedor(proveedor).detalle(detalle).fecha(fechaDeCobro).monto(monto)
+                .medioDePago(Movimiento.MedioDePago.valueOf(medioDePago)).build();
+    }
+
+    public Movimiento buildEntradaManual() {
+        return Movimiento.builder().tipoMovimiento(Movimiento.TipoDeMovimiento.valueOf(tipoMovimiento))
+                .detalle(detalle).fecha(fechaDeCobro).monto(monto)
+                .medioDePago(Movimiento.MedioDePago.valueOf(medioDePago)).build();
     }
 }
