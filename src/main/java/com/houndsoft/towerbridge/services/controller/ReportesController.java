@@ -1,6 +1,8 @@
 package com.houndsoft.towerbridge.services.controller;
 
+import com.houndsoft.towerbridge.services.model.Clase;
 import com.houndsoft.towerbridge.services.response.AlumnoResponse;
+import com.houndsoft.towerbridge.services.service.MovimientoService;
 import com.houndsoft.towerbridge.services.service.ReportesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -24,6 +26,9 @@ public class ReportesController {
 
     @Autowired
     ReportesService reportesService;
+
+    @Autowired
+    MovimientoService movimientoService;
 
     @GetMapping("/examen-internacional-2")
     public ResponseEntity<Map<String, Object>> getExamenInternacionalReport(@RequestParam(defaultValue = "0") int page) {
@@ -64,6 +69,16 @@ public class ReportesController {
         }
     }
 
+    @GetMapping("/tres-meses-adeudados")
+    public ResponseEntity<List<Map<String, Object>>> getTresMesesAdeudadosReport() {
+        try {
+            final List<Map<String, Object>> tresMesesAdeudadosReport = reportesService.getTresMesesAdeudadosReport();
+            return new ResponseEntity<>(tresMesesAdeudadosReport,HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @GetMapping("/mal-desempenio")
     public ResponseEntity<List<Map<String, Object>>> getAlumnosConMalDesempenioReport() {
         try {
@@ -99,6 +114,18 @@ public class ReportesController {
         try {
             final List<Map<String, Object>> clasesDeCursosEspecificos = reportesService.findClasesDeCursosEspecificos();
             return new ResponseEntity<>(clasesDeCursosEspecificos,HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/clases-por-horario")
+    public ResponseEntity<List<Map<String, Object>>> getClasesPorDiaYHorario(@RequestParam() Clase.Dia dia,
+                                                                             @RequestParam() Integer horarioInicio,
+                                                                             @RequestParam() Integer horarioFin) {
+        try {
+            final List<Map<String, Object>> clasesPorDiaYHorario = reportesService.findClasesPorDiaYHorario(dia,horarioInicio,horarioFin);
+            return new ResponseEntity<>(clasesPorDiaYHorario,HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }

@@ -3,6 +3,7 @@ package com.houndsoft.towerbridge.services.repository;
 import com.houndsoft.towerbridge.services.model.Alumno;
 import com.houndsoft.towerbridge.services.model.Clase.Dia;
 import com.houndsoft.towerbridge.services.model.Clase;
+import com.houndsoft.towerbridge.services.model.Curso;
 import com.houndsoft.towerbridge.services.model.Profesor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,6 +29,8 @@ public interface ClaseRepository extends JpaRepository<Clase, Long>, JpaSpecific
     Page<Clase> findByProfesorEqualsAndActivoTrue(Profesor profesor, Pageable paging);
 
     Page<Clase> findByAlumnosAnotadosContainsAndActivoTrue(Alumno alumno, Pageable paging);
+
+    List<Clase> findByCursoEqualsAndActivoTrue(Curso curso);
 
   @Query(
       value =

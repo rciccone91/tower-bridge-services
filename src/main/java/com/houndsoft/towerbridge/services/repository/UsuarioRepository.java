@@ -16,7 +16,6 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long>, JpaSpec
 
     Optional<Usuario> findByUsername(String username);
 
-
     Boolean existsByUsername(String username);
 
     Page<Usuario> findByUsernameContainingIgnoreCaseAndActivoTrue(String username, Pageable paging);

@@ -57,10 +57,6 @@ public class ClaseService implements CommonFilter {
     } else throw new RuntimeException("La clase no existe.");
   }
 
-  // TODO - validate:
-  // - que el alumno no tenga otra clase en ese dia-horario
-  // - que el profesor no tenga otra clase en ese dia-horario
-  // - que no haya mas de 3 clases en ese horario
   public void validateClase(
       Profesor claseProfesor,
       List<Alumno> claseAlumnos,

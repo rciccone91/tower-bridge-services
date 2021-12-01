@@ -25,7 +25,12 @@ public interface MovimientoRepository
       nativeQuery = true)
   List<Movimiento> findTopOrderByFechaCreacionDesc();
 
-  List<Movimiento> findByFechaBetweenAndActivoTrue(Date fechaDesde, Date fechaHasta);
+  List<Movimiento> findByFechaBetweenOrderByFechaDesc(Date fechaDesde, Date fechaHasta);
 
-  Page<Movimiento> findByTipoMovimientoEqualsAndActivoTrue(TipoDeMovimiento tipoMovimiento, Pageable paging);
+  List<Movimiento> findByTipoMovimientoEqualsAndFechaBetweenAndMontoGreaterThanOrderByFechaDesc(TipoDeMovimiento tipoDeMovimiento, Date fechaDesde, Date fechaHasta, Integer monto);
+
+  Page<Movimiento> findByTipoMovimientoEqualsAndActivoTrueAndMontoGreaterThan(
+      TipoDeMovimiento tipoMovimiento, Integer monto, Pageable paging);
+
+  List<Movimiento> findByAlumnoEqualsAndTipoMovimientoEqualsAndActivoTrueAndMontoGreaterThan(Alumno alumno,TipoDeMovimiento tipoDeMovimiento, Integer monto);
 }

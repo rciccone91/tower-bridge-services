@@ -20,7 +20,7 @@ public class UsuarioDao {
         try {
             connection = DBConnection.getConnection();
             String table = perfil.equals(Usuario.Perfil.ALUMNO) ? "alumnos" : "profesores";
-            String query = "select id,username FROM usuarios WHERE  id not IN  ( SELECT usuario_id  FROM " + table + " WHERE usuario_id is not null ) and perfil = ?";
+            String query = "select id,username FROM usuarios WHERE  id not IN  ( SELECT usuario_id  FROM " + table + " WHERE usuario_id is not null ) and perfil = ? and activo=true";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, perfil.toString());
 

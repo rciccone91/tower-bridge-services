@@ -24,7 +24,7 @@ public class Usuario extends AbstractEntity {
 
   @Column(nullable = false)
   @NotEmpty
-  private String password; //TODO - hash
+  private String password;
 
   @Column(nullable = false)
   @Enumerated(EnumType.STRING)

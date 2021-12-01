@@ -45,6 +45,7 @@ public class Alumno extends AbstractEntity {
 
   private Boolean rindeExamen;
 
+  @Column(nullable = false)
   @Convert(converter = YearMonthDateAttributeConverter.class)
   private YearMonth fechaInscripcion;
 

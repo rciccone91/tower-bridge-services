@@ -4,6 +4,7 @@ import com.houndsoft.towerbridge.services.dao.UsuarioDao;
 import com.houndsoft.towerbridge.services.exception.LoginInvalidoException;
 import com.houndsoft.towerbridge.services.exception.UsuarioSinAlumoAsociadoException;
 import com.houndsoft.towerbridge.services.exception.UsuarioSinProfesorAsociadoException;
+import com.houndsoft.towerbridge.services.exception.UsuarioYaExistenteException;
 import com.houndsoft.towerbridge.services.model.Alumno;
 import com.houndsoft.towerbridge.services.model.Profesor;
 import com.houndsoft.towerbridge.services.model.Usuario;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import static com.houndsoft.towerbridge.services.repository.filter.CommonFilter.isActive;
 
@@ -47,14 +49,21 @@ public class UsuarioService implements CommonFilter {
   }
 
   public Usuario createUsuario(UsuarioDTO usuarioDto) {
+    if(usuarioRepository.existsByUsername(usuarioDto.getUsername())){
+      throw new UsuarioYaExistenteException(usuarioDto.getUsername());
+    }
     Usuario usuario = usuarioDto.buildUsuario();
     usuarioRepository.save(usuario);
     return usuario;
   }
 
-  public Usuario updateUsuario(long id, UsuarioDTO usuarioDto) {
+  public Usuario updateUsuario(Long id, UsuarioDTO usuarioDto) {
     final Usuario retrievedUsuario = usuarioRepository.getById(id);
     if (retrievedUsuario.isPersisted()) {
+      final Optional<Usuario> maybeUsuario = usuarioRepository.findByUsername(usuarioDto.getUsername());
+      if(maybeUsuario.isPresent() && !maybeUsuario.get().getId().equals(id)){
+        throw new UsuarioYaExistenteException(usuarioDto.getUsername());
+      }
       Usuario usuario = usuarioDto.buildUsuario();
       usuario.setId(id);
       usuarioRepository.save(usuario);

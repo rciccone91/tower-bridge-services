@@ -3,12 +3,10 @@ package com.houndsoft.towerbridge.services.response;
 import com.houndsoft.towerbridge.services.model.Alumno;
 import com.houndsoft.towerbridge.services.model.Descuento;
 import com.houndsoft.towerbridge.services.utils.AlphabeticalOrder;
+import com.houndsoft.towerbridge.services.utils.Utils;
 import lombok.*;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Getter
@@ -35,6 +33,7 @@ public class AlumnoResponse {
     private List<PadreSimpleResponse> padres;
     private List<String> clases;
     private String descuentoAplicado;
+    private Date fechaInscripcion;
 
 
     public static AlumnoResponse buildFromAlumno(Alumno alumno) {
@@ -56,7 +55,7 @@ public class AlumnoResponse {
             return AlumnoResponse.builder().anioEscolar(alumno.getAnioEscolar()).colegio(alumno.getColegio()).detalles(alumno.getDetalles())
                     .dni(alumno.getDni()).domicilio(alumno.getContacto().getDomicilio()).email(alumno.getContacto().getEmail()).telefono(alumno.getContacto().getTelefono())
                     .fechaDeNacimiento(alumno.getFechaDeNacimiento()).institucionesPrevias(alumno.getInstitucionesPrevias()).nivelIngles(alumno.getNivelIngles())
-                    .nombreApellido(alumno.getNombreApellido()).rindeExamen(alumno.getRindeExamen()).id(alumno.getId())
+                    .nombreApellido(alumno.getNombreApellido()).rindeExamen(alumno.getRindeExamen()).id(alumno.getId()).fechaInscripcion(Utils.getDateFromYearMonth(alumno.getFechaInscripcion()))
                     .padres(padres).clases(clases).descuentoAplicado(nombreDescuento).usuario(usuarioMap).build();
         } else throw new RuntimeException("El alumno no existe.");
     }

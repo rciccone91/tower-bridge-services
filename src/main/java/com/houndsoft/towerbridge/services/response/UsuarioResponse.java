@@ -16,8 +16,6 @@ public class UsuarioResponse {
   private Long id;
   private Long usuarioId;
 
-  // TODO - voy a buscar el alumno o profesor asociado al usuario.
-  // En caso de que no haya, tiro una excepción.
   public static UsuarioResponse buildFromUsuario(Usuario usuario, Long relatedId) {
     return UsuarioResponse.builder()
         .perfil(usuario.getPerfil())

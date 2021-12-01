@@ -14,5 +14,5 @@ public interface PadreRepository extends JpaRepository<Padre, Long>, JpaSpecific
 
     Page<Padre> findByNombreApellidoContainingIgnoreCaseAndActivoTrue(String nombreApellido, Pageable pageable);
 
-    Page<Padre> findByAlumnosNombreApellidoContainingIgnoreCase(String nombreApellido, Pageable pageable);
+    Page<Padre> findByAlumnosNombreApellidoContainingIgnoreCaseAndActivoTrue(String nombreApellido, Pageable pageable);
 }

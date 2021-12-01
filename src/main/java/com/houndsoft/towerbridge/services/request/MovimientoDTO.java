@@ -32,7 +32,7 @@ public class MovimientoDTO {
     public Movimiento buildMovimientoCobro(Curso curso, Alumno alumno) {
         return Movimiento.builder().tipoMovimiento(Movimiento.TipoDeMovimiento.valueOf(tipoMovimiento))
                 .alumno(alumno).curso(curso).detalle(detalle).fecha(fechaDeCobro).monto(monto)
-                .medioDePago(Movimiento.MedioDePago.valueOf(medioDePago)).mesAbonado(Utils.getFromDate(mesAbonado)).build();
+                .medioDePago(Movimiento.MedioDePago.valueOf(medioDePago)).mesAbonado(Utils.getYearMonthFromDate(mesAbonado)).build();
     }
 
     public Movimiento buildMovimientoCobro(Proveedor proveedor) {

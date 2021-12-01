@@ -42,8 +42,7 @@ public class PadreService implements CommonFilter {
 
 
     public Page<Padre> findByAlumnosNombreApellidoContaining(String alumno, Pageable pageable) {
-        //TODO - add activo
-        return padreRepository.findByAlumnosNombreApellidoContainingIgnoreCase(alumno,pageable);
+        return padreRepository.findByAlumnosNombreApellidoContainingIgnoreCaseAndActivoTrue(alumno,pageable);
     }
 
     public Padre createPadre(PadreDTO padreDTO) {
